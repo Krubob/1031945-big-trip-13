@@ -1,7 +1,7 @@
 # Проект «Большое путешествие» [![Check status][check-image]][check-url]
 
-* Студент: [Vladislav Petrov](https://up.htmlacademy.ru/ecmascript/13/user/1031945).
-* Наставник: `Неизвестно`.
+- Студент: [Vladislav Petrov](https://up.htmlacademy.ru/ecmascript/13/user/1031945).
+- Наставник: `Александр Колодеев`.
 
 ---
 
