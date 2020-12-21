@@ -7,6 +7,7 @@ import {createEventItemTemplate} from "./view/event-item.js";
 import {createFormEditTemplate} from "./view/form-edit.js";
 import {createFormNewTemplate} from "./view/form-new.js";
 import {generateEvent} from "./mock/event.js";
+import {getRandomInteger} from "./utils.js";
 
 const EVENT_COUNT = 15;
 
@@ -33,5 +34,5 @@ for (let i = 0; i < EVENT_COUNT; i++) {
   render(eventsListElement, createEventItemTemplate(events[i]), `beforeend`);
 }
 
-render(eventsListElement, createFormEditTemplate(), `afterbegin`);
-render(eventsListElement, createFormNewTemplate(), `beforeend`);
+render(eventsListElement, createFormEditTemplate(events[getRandomInteger(0, events.length - 1)]), `afterbegin`);
+render(eventsListElement, createFormNewTemplate(events[getRandomInteger(0, events.length - 1)]), `beforeend`);

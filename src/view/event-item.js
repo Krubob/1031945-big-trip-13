@@ -79,7 +79,7 @@ export const createEventItemTemplate = (event) => {
     <ul class="event__selected-offers">
       ${options.map((obj) => {
     return createEventOfferTemplate(obj.option, obj.cost);
-  })}
+  }).join(``)}
     </ul>
     <button class="${`event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}`}" type="button">
       <span class="visually-hidden">Add to favorite</span>
