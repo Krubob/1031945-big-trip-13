@@ -6,8 +6,12 @@ import {createEventListTemplate} from "./view/event-list.js";
 import {createEventItemTemplate} from "./view/event-item.js";
 import {createFormEditTemplate} from "./view/form-edit.js";
 import {createFormNewTemplate} from "./view/form-new.js";
+import {generateEvent} from "./mock/event.js";
 
 const EVENT_COUNT = 3;
+
+const events = new Array(EVENT_COUNT).fill().map(generateEvent);
+console.log(events);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -26,7 +30,7 @@ render(blockEventsElement, createEventListTemplate(), `beforeend`);
 const eventsListElement = blockEventsElement.querySelector(`.trip-events__list`);
 
 for (let i = 0; i < EVENT_COUNT; i++) {
-  render(eventsListElement, createEventItemTemplate(), `beforeend`);
+  render(eventsListElement, createEventItemTemplate(events[i]), `beforeend`);
 }
 
 render(eventsListElement, createFormEditTemplate(), `afterbegin`);
