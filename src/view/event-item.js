@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
+import {createEventOfferTemplate} from "./offer";
 import {ONE_HOUR_IN_MINUTES, ONE_DAY_IN_MINUTES, TEN_MINUTES} from "../const";
 
 export const createEventItemTemplate = (event) => {
-  const {type, destionation, startTime, endTime, cost} = event;
+  const {type, destionation, startTime, endTime, cost, options, isFavorite} = event;
 
   const dateToStart = startTime !== null
     ? dayjs(startTime).format(`MMM DD`)
@@ -76,13 +77,11 @@ export const createEventItemTemplate = (event) => {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      <li class="event__offer">
-        <span class="event__offer-title">Order Uber</span>
-        &plus;&euro;&nbsp;
-        <span class="event__offer-price">20</span>
-      </li>
+      ${options.map((obj) => {
+    return createEventOfferTemplate(obj.option, obj.cost);
+  })}
     </ul>
-    <button class="event__favorite-btn event__favorite-btn--active" type="button">
+    <button class="${`event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}`}" type="button">
       <span class="visually-hidden">Add to favorite</span>
       <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
         <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
