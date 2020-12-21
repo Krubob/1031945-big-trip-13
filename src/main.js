@@ -8,7 +8,7 @@ import {createFormEditTemplate} from "./view/form-edit.js";
 import {createFormNewTemplate} from "./view/form-new.js";
 import {generateEvent} from "./mock/event.js";
 
-const EVENT_COUNT = 3;
+const EVENT_COUNT = 15;
 
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
 console.log(events);

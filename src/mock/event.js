@@ -1,5 +1,5 @@
 import {getRandomInteger} from "../utils.js";
-import {DESTINATION_POINTS, PONT_TYPES, POINT_DESCRIPRTIONS, POINT_OPTIONS, PHOTO_URL, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP, MAX_MINUTES_GAP} from "../const.js";
+import {DESTINATION_POINTS, PONT_TYPES, POINT_DESCRIPRTIONS, POINT_OPTIONS, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
 import {nanoid} from 'nanoid';
 import dayjs from 'dayjs';
 
@@ -9,7 +9,7 @@ const generateType = () => {
 };
 
 const generateDestination = () => {
-  const randomIndex = getRandomInteger(0, PONT_TYPES.length - 1);
+  const randomIndex = getRandomInteger(0, DESTINATION_POINTS.length - 1);
   return DESTINATION_POINTS[randomIndex];
 };
 
@@ -55,16 +55,16 @@ const generateOptions = () => {
 const generateDate = () => {
   const daysGap = getRandomInteger(-MAX_DAYS_GAP, MAX_DAYS_GAP);
   const hoursGap = getRandomInteger(-MAX_HOURS_GAP, MAX_HOURS_GAP);
-  const minutesGap = getRandomInteger(-MAX_MINUTES_GAP, MAX_MINUTES_GAP);
+  const minutesGap = getRandomInteger(-MAX_HOURS_GAP, MAX_HOURS_GAP);
 
-  return dayjs().add(daysGap, `day`).add(hoursGap, `hours`).add(minutesGap, `minutes`);
+  return dayjs().add(daysGap, `day`).add(hoursGap, `hours`).add(minutesGap, `minute`);
 };
 
 export const generateEvent = () => {
   const startTime = generateDate();
   let endTime = generateDate();
 
-  if (!(dayjs(startTime).isSame(dayjs(endTime))) && startTime.isBefore(endTime)) {
+  while (!(dayjs(startTime).isSame(dayjs(endTime))) && startTime.isAfter(endTime)) {
     endTime = generateDate();
   }
 
@@ -78,7 +78,7 @@ export const generateEvent = () => {
     },
     startTime,
     endTime,
-    cost: getRandomInteger(1, MAX_COST),
+    cost: getRandomInteger(MIN_COST, MAX_COST),
     options: generateOptions(),
     isFavorite: Boolean(getRandomInteger(0, 1)),
   };

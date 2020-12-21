@@ -1,21 +1,78 @@
-export const createEventItemTemplate = () => {
+import dayjs from 'dayjs';
+import {ONE_HOUR_IN_MINUTES, ONE_DAY_IN_MINUTES, TEN_MINUTES} from "../const";
+
+export const createEventItemTemplate = (event) => {
+  const {type, destionation, startTime, endTime, cost} = event;
+
+  const dateToStart = startTime !== null
+    ? dayjs(startTime).format(`MMM DD`)
+    : ``;
+
+  const timeToStart = startTime !== null
+    ? dayjs(startTime).format(`hh:mm`)
+    : ``;
+
+  const timeToEnd = endTime !== null
+    ? dayjs(endTime).format(`hh:mm`)
+    : ``;
+
+  const machineTypeTimeStart = startTime !== null
+    ? dayjs(startTime).format(`YYYY-MM-DDTHH:MM`)
+    : ``;
+
+  const machineTypeTimeEnd = endTime !== null
+    ? dayjs(endTime).format(`YYYY-MM-DDTHH:MM`)
+    : ``;
+
+  const machineTypeDateStart = startTime !== null
+    ? dayjs(startTime).format(`YYYY-MM-DD`)
+    : ``;
+
+  const diffTimeMinutes = (startTime !== null && endTime)
+    ? endTime.diff(startTime, `minute`)
+    : ``;
+
+  const evaluateTimeDiff = () => {
+    let diffTime = 0;
+
+    if (diffTimeMinutes < ONE_HOUR_IN_MINUTES) {
+      diffTime = `${diffTimeMinutes < TEN_MINUTES ? `0${diffTimeMinutes}M` : `${diffTimeMinutes}M`}`;
+    } else if (diffTimeMinutes > ONE_HOUR_IN_MINUTES && diffTimeMinutes <= ONE_DAY_IN_MINUTES) {
+      const hours = Math.trunc(diffTimeMinutes / ONE_HOUR_IN_MINUTES);
+      const minutes = diffTimeMinutes - (hours * ONE_HOUR_IN_MINUTES);
+      diffTime = `${hours < TEN_MINUTES ? `0${hours}` : `${hours}`}H
+                  ${minutes < TEN_MINUTES ? `0${minutes}` : `${minutes}`}M`;
+    } else if (diffTimeMinutes > ONE_DAY_IN_MINUTES) {
+      const days = Math.trunc(diffTimeMinutes / ONE_DAY_IN_MINUTES);
+      const hours = Math.trunc((diffTimeMinutes - (days * ONE_DAY_IN_MINUTES)) / ONE_HOUR_IN_MINUTES);
+      const minutes = (diffTimeMinutes - (days * ONE_DAY_IN_MINUTES)) - (hours * ONE_HOUR_IN_MINUTES);
+      diffTime = `${days < TEN_MINUTES ? `0${days}` : `${days}`}D
+                  ${hours < TEN_MINUTES ? `0${hours}` : `${hours}`}H
+                  ${minutes < TEN_MINUTES ? `0${minutes}` : `${minutes}`}M`;
+    }
+
+    return diffTime;
+  };
+
+  const diffDateTime = evaluateTimeDiff();
+
   return `<li class="trip-events__item">
   <div class="event">
-    <time class="event__date" datetime="2019-03-18">MAR 18</time>
+    <time class="event__date" datetime="${machineTypeDateStart}">${dateToStart}</time>
     <div class="event__type">
-      <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+      <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">Taxi Amsterdam</h3>
+    <h3 class="event__title">${type} ${destionation}</h3>
     <div class="event__schedule">
       <p class="event__time">
-        <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+        <time class="event__start-time" datetime="${machineTypeTimeStart}">${timeToStart}</time>
         &mdash;
-        <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+        <time class="event__end-time" datetime="${machineTypeTimeEnd}">${timeToEnd}</time>
       </p>
-      <p class="event__duration">30M</p>
+      <p class="event__duration">${diffDateTime}M</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">20</span>
+      &euro;&nbsp;<span class="event__price-value">${cost}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">

@@ -1,8 +1,11 @@
 export const PHOTO_URL = `http://picsum.photos/248/152?r`;
+export const MIN_COST = 1;
 export const MAX_COST = 1000;
 export const MAX_DAYS_GAP = 7;
 export const MAX_HOURS_GAP = 24;
-export const MAX_MINUTES_GAP = 60;
+export const ONE_HOUR_IN_MINUTES = 60;
+export const ONE_DAY_IN_MINUTES = 1440;
+export const TEN_MINUTES = 10;
 
 export const DESTINATION_POINTS = [
   `Moscow`,
