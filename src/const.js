@@ -38,4 +38,21 @@ export const POINT_DESCRIPRTIONS = [
 
 export const POINT_OPTIONS = [`Add luggage`, `Add meal`, `Add breakfast`, `Choose seats`, `Travel by train`, `Switch to comfort`, `Book tickets`, `Lunch in city`, `Rent a car`, `Order Uber`];
 
+export const SORT_TYPES = {
+  DAY: `Day`,
+  EVENT: `Event`,
+  TIME: `Time`,
+  PRICE: `Price`,
+  OFFERS: `Offers`,
+};
 
+export const TABS_TYPES = {
+  TABLE: `Table`,
+  STATS: `Stats`,
+};
+
+export const FILTERS_TYPES = {
+  EVERYTHING: `Everything`,
+  FUTURE: `Future`,
+  PAST: `Past`
+};

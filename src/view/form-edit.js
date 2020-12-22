@@ -1,9 +1,7 @@
 import {createAvailableOfferTemplate} from "./available-offers";
 import {createFormHeaderTemplate} from "./form-header";
 
-export const createFormEditTemplate = (event) => {
-  const {type, destionation, startTime, endTime, cost, options, destionationInfo} = event;
-
+export const createFormEditTemplate = ({type, destionation, startTime, endTime, cost, options, destionationInfo}) => {
   return `<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
     <header class="event__header">
