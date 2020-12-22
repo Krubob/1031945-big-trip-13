@@ -26,7 +26,6 @@ const generatePhotos = () => {
     return `${PHOTO_URL}=${Math.random()}`;
   };
   const photos = new Array(photosCount).fill().map(generatePhoto);
-
   return photos;
 };
 

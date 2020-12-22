@@ -1,4 +1,4 @@
-export const createAvailableOfferTemplate = (option, cost, isChecked) => {
+const availableOfferTemplate = (option, cost, isChecked) => {
   return `
     <div class="event__offer-selector">
       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option}-1" type="checkbox" name="event-offer-${option}" ${isChecked ? `checked` : ``}>
@@ -9,4 +9,10 @@ export const createAvailableOfferTemplate = (option, cost, isChecked) => {
       </label>
     </div>
     `;
+};
+
+export const createAvailableOfferTemplate = (options) => {
+  return `${options.map((obj) => {
+    return availableOfferTemplate(obj.option, obj.cost, obj.isChecked);
+  }).join(``)}`;
 };
