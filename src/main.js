@@ -7,12 +7,14 @@ import {createEventItemTemplate} from "./view/event-item.js";
 import {createFormEditTemplate} from "./view/form-edit.js";
 import {createFormNewTemplate} from "./view/form-new.js";
 import {generateEvent} from "./mock/event.js";
+import {generateFilters} from "./mock/filters.js";
+import {generateTabs} from "./mock/tabs.js";
+import {generateSorting} from "./mock/sorting.js";
 import {getRandomInteger} from "./utils.js";
 
 const EVENT_COUNT = 15;
 
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
-console.log(events);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -23,9 +25,9 @@ const blockEventsElement = document.querySelector(`.trip-events`);
 const menuControlsElements = menuMainElement.querySelectorAll(`.trip-controls h2`);
 
 render(menuMainElement, createInfoTemplate(), `afterbegin`);
-render(menuControlsElements[0], createTabsTemplate(), `afterend`);
-render(menuControlsElements[1], createFiltersTemplate(), `afterend`);
-render(blockEventsElement, createSortingTemplate(), `beforeend`);
+render(menuControlsElements[0], createTabsTemplate(generateTabs()), `afterend`);
+render(menuControlsElements[1], createFiltersTemplate(generateFilters()), `afterend`);
+render(blockEventsElement, createSortingTemplate(generateSorting()), `beforeend`);
 render(blockEventsElement, createEventListTemplate(), `beforeend`);
 
 const eventsListElement = blockEventsElement.querySelector(`.trip-events__list`);
