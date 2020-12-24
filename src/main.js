@@ -11,6 +11,7 @@ import {generateFilters} from "./mock/filters.js";
 import {generateTabs} from "./mock/tabs.js";
 import {generateSorting} from "./mock/sorting.js";
 import {getRandomInteger} from "./utils.js";
+import {InsertPosition} from "./const";
 
 const EVENT_COUNT = 15;
 
@@ -22,19 +23,23 @@ const render = (container, template, place) => {
 
 const menuMainElement = document.querySelector(`.trip-main`);
 const blockEventsElement = document.querySelector(`.trip-events`);
-const menuControlsElements = menuMainElement.querySelectorAll(`.trip-controls h2`);
+const [tabsTitleElement, filtersTitleElement] = menuMainElement.querySelectorAll(`.trip-controls h2`);
 
-render(menuMainElement, createInfoTemplate(), `afterbegin`);
-render(menuControlsElements[0], createTabsTemplate(generateTabs()), `afterend`);
-render(menuControlsElements[1], createFiltersTemplate(generateFilters()), `afterend`);
-render(blockEventsElement, createSortingTemplate(generateSorting()), `beforeend`);
-render(blockEventsElement, createEventListTemplate(), `beforeend`);
+render(menuMainElement, createInfoTemplate(), InsertPosition.AFTERBEGIN);
+render(tabsTitleElement, createTabsTemplate(generateTabs()), InsertPosition.AFTEREND);
+render(filtersTitleElement, createFiltersTemplate(generateFilters()), InsertPosition.AFTEREND);
+render(blockEventsElement, createSortingTemplate(generateSorting()), InsertPosition.BEFOREEND);
+render(blockEventsElement, createEventListTemplate(), InsertPosition.BEFOREEND);
 
 const eventsListElement = blockEventsElement.querySelector(`.trip-events__list`);
 
 for (let i = 0; i < EVENT_COUNT; i++) {
-  render(eventsListElement, createEventItemTemplate(events[i]), `beforeend`);
+  render(eventsListElement, createEventItemTemplate(events[i]), InsertPosition.BEFOREEND);
 }
 
-render(eventsListElement, createFormEditTemplate(events[getRandomInteger(0, events.length - 1)]), `afterbegin`);
-render(eventsListElement, createFormNewTemplate(events[getRandomInteger(0, events.length - 1)]), `beforeend`);
+const getRandomArrayElem = (array) => {
+  return array[getRandomInteger(0, array.length - 1)];
+};
+
+render(eventsListElement, createFormEditTemplate(getRandomArrayElem(events)), InsertPosition.AFTERBEGIN);
+render(eventsListElement, createFormNewTemplate(getRandomArrayElem(events)), InsertPosition.BEFOREEND);

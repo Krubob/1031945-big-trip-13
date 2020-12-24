@@ -56,3 +56,9 @@ export const FILTERS_TYPES = {
   FUTURE: `Future`,
   PAST: `Past`
 };
+
+export const InsertPosition = {
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`,
+  AFTERBEGIN: `afterbegin`,
+};

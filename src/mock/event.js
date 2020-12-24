@@ -25,8 +25,7 @@ const generatePhotos = () => {
   const generatePhoto = () => {
     return `${PHOTO_URL}=${Math.random()}`;
   };
-  const photos = new Array(photosCount).fill().map(generatePhoto);
-  return photos;
+  return new Array(photosCount).fill().map(generatePhoto);
 };
 
 const generateOption = () => {
@@ -41,14 +40,7 @@ const generateOption = () => {
 };
 
 const generateOptions = () => {
-  const optionsCount = getRandomInteger(0, 5);
-  const randomOptions = [];
-
-  for (let i = 0; i < optionsCount; i++) {
-    randomOptions.push(generateOption());
-  }
-
-  return randomOptions;
+  return Array.from({length: getRandomInteger(0, 5)}, generateOption);
 };
 
 const generateDate = () => {
