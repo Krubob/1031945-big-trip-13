@@ -10,16 +10,12 @@ import {generateEvent} from "./mock/event.js";
 import {generateFilters} from "./mock/filters.js";
 import {generateTabs} from "./mock/tabs.js";
 import {generateSorting} from "./mock/sorting.js";
-import {getRandomInteger} from "./utils.js";
+import {getRandomInteger, render} from "./utils.js";
 import {InsertPosition} from "./const";
 
 const EVENT_COUNT = 15;
 
 const events = new Array(EVENT_COUNT).fill().map(generateEvent);
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const menuMainElement = document.querySelector(`.trip-main`);
 const blockEventsElement = document.querySelector(`.trip-events`);
