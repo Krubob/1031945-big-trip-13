@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {createEventOfferTemplate} from "./offer";
+import EventOffer from "./offer";
 import {ONE_HOUR_IN_MINUTES, ONE_DAY_IN_MINUTES, TEN_MINUTES} from "../const";
 
 export const createEventItemTemplate = (event) => {
@@ -78,7 +78,7 @@ export const createEventItemTemplate = (event) => {
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
       ${options.map((obj) => {
-    return createEventOfferTemplate(obj.option, obj.cost);
+    return (new EventOffer(obj.option, obj.cost).getElement());
   }).join(``)}
     </ul>
     <button class="${`event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}`}" type="button">
