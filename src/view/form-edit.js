@@ -1,5 +1,6 @@
 import {createAvailableOfferTemplate} from "./available-offers";
 import {createFormHeaderTemplate} from "./form-header";
+import {createElement} from "../utils.js";
 
 export const createFormEditTemplate = ({type, destionation, startTime, endTime, cost, options, destionationInfo}) => {
   return `<li class="trip-events__item">
@@ -24,3 +25,26 @@ export const createFormEditTemplate = ({type, destionation, startTime, endTime, 
   </form>
 </li>`;
 };
+
+export default class FormEditView {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createFormEditTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -7,7 +7,7 @@ export const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export const renderElement = (container, element, place) => {
+export const render = (container, element, place) => {
   switch (place) {
     case InsertPosition.AFTERBEGIN:
       container.prepend(element);
@@ -21,7 +21,7 @@ export const renderElement = (container, element, place) => {
   }
 };
 
-export const render = (container, template, place) => {
+export const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
