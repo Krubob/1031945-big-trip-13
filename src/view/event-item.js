@@ -3,7 +3,7 @@ import {createEventOfferTemplate} from "./offer";
 import {ONE_HOUR_IN_MINUTES, ONE_DAY_IN_MINUTES, TEN_MINUTES} from "../const";
 import {createElement} from "../utils.js";
 
-export const createEventItemTemplate = (event) => {
+const createEventItemTemplate = (event) => {
   const {type, destionation, startTime, endTime, cost, options, isFavorite} = event;
 
   const dateToStart = startTime !== null

@@ -21,6 +21,46 @@ const menuMainElement = document.querySelector(`.trip-main`);
 const blockEventsElement = document.querySelector(`.trip-events`);
 const [tabsTitleElement, filtersTitleElement] = menuMainElement.querySelectorAll(`.trip-controls h2`);
 
+const getRandomArrayElem = (array) => {
+  return array[getRandomInteger(0, array.length - 1)];
+};
+
+const renderEvent = (eventElement, event) => {
+  const eventComponent = new EventItemView(event);
+  const eventEditComponent = new FormEditView(event);
+  const rollupBtnElement = eventComponent.getElement().querySelector(`.event__rollup-btn`);
+  const formEditElement = eventEditComponent.getElement().querySelector(`.event--edit`);
+
+  const replaceEventToForm = () => {
+    eventElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+  };
+
+  const replaceFormToEvent = () => {
+    eventElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToEvent();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  rollupBtnElement.addEventListener(`click`, () => {
+    replaceEventToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+  formEditElement.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceFormToEvent();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  render(eventElement, eventComponent.getElement(), InsertPosition.BEFOREEND);
+};
+
 render(menuMainElement, new InfoView().getElement(), InsertPosition.AFTERBEGIN);
 render(tabsTitleElement, new TabsView(generateTabs()).getElement(), InsertPosition.AFTEREND);
 render(filtersTitleElement, new FiltersView(generateFilters()).getElement(), InsertPosition.AFTEREND);
@@ -30,12 +70,7 @@ render(blockEventsElement, new EventList().getElement(), InsertPosition.BEFOREEN
 const eventsListElement = blockEventsElement.querySelector(`.trip-events__list`);
 
 for (let i = 0; i < EVENT_COUNT; i++) {
-  render(eventsListElement, new EventItemView(events[i]).getElement(), InsertPosition.BEFOREEND);
+  renderEvent(eventsListElement, events[i]);
 }
 
-const getRandomArrayElem = (array) => {
-  return array[getRandomInteger(0, array.length - 1)];
-};
-
-render(eventsListElement, new FormEditView(getRandomArrayElem(events)).getElement(), InsertPosition.AFTERBEGIN);
 render(eventsListElement, new FormNewView(getRandomArrayElem(events)).getElement(), InsertPosition.BEFOREEND);
