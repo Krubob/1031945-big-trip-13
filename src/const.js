@@ -15,7 +15,7 @@ export const DESTINATION_POINTS = [
   `San Francisco`
 ];
 
-export const PONT_TYPES = [
+export const POINT_TYPES = [
   `Taxi`,
   `Bus`,
   `Train`,

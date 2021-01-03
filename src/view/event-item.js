@@ -1,7 +1,21 @@
 import dayjs from 'dayjs';
-import {createEventOfferTemplate} from "./offer";
 import {ONE_HOUR_IN_MINUTES, ONE_DAY_IN_MINUTES, TEN_MINUTES} from "../const";
 import {createElement} from "../utils.js";
+
+const createEventOffer = (options) => {
+  let selectedOffers = ``;
+
+  for (const item of options) {
+    selectedOffers += `
+    <li class="event__offer">
+      <span class="event__offer-title">${item.option}</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">${item.cost}</span>
+    </li>`;
+  }
+
+  return selectedOffers;
+};
 
 const createEventItemTemplate = (event) => {
   const {type, destionation, startTime, endTime, cost, options, isFavorite} = event;
@@ -78,9 +92,7 @@ const createEventItemTemplate = (event) => {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-    ${options.map((obj) => {
-    return createEventOfferTemplate(obj.option, obj.cost);
-  }).join(``)}
+      ${createEventOffer(options)}
     </ul>
     <button class="${`event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}`}" type="button">
       <span class="visually-hidden">Add to favorite</span>

@@ -1,11 +1,11 @@
 import {getRandomInteger} from "../utils.js";
-import {DESTINATION_POINTS, PONT_TYPES, POINT_DESCRIPRTIONS, POINT_OPTIONS, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
+import {DESTINATION_POINTS, POINT_TYPES, POINT_DESCRIPRTIONS, POINT_OPTIONS, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
 import {nanoid} from 'nanoid';
 import dayjs from 'dayjs';
 
 const generateType = () => {
-  const randomIndex = getRandomInteger(0, PONT_TYPES.length - 1);
-  return PONT_TYPES[randomIndex];
+  const randomIndex = getRandomInteger(0, POINT_TYPES.length - 1);
+  return POINT_TYPES[randomIndex];
 };
 
 const generateDestination = () => {
@@ -39,7 +39,7 @@ const generateOption = () => {
   };
 };
 
-const generateOptions = () => {
+export const generateOptions = () => {
   return Array.from({length: getRandomInteger(0, 5)}, generateOption);
 };
 
