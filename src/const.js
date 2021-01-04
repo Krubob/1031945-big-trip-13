@@ -7,7 +7,7 @@ export const ONE_HOUR_IN_MINUTES = 60;
 export const ONE_DAY_IN_MINUTES = 1440;
 export const TEN_MINUTES = 10;
 
-export const DESTINATION_POINTS = [
+export const cities = [
   `Moscow`,
   `Paris`,
   `Luxemburg`,
@@ -15,7 +15,7 @@ export const DESTINATION_POINTS = [
   `San Francisco`
 ];
 
-export const POINT_TYPES = [
+export const pointTypes = [
   `Taxi`,
   `Bus`,
   `Train`,
@@ -28,7 +28,7 @@ export const POINT_TYPES = [
   `Restaurant`
 ];
 
-export const POINT_DESCRIPRTIONS = [
+export const descriptions = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.`,
   `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
@@ -36,9 +36,9 @@ export const POINT_DESCRIPRTIONS = [
   `Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`
 ];
 
-export const POINT_OPTIONS = [`Add luggage`, `Add meal`, `Add breakfast`, `Choose seats`, `Travel by train`, `Switch to comfort`, `Book tickets`, `Lunch in city`, `Rent a car`, `Order Uber`];
+export const options = [`Add luggage`, `Add meal`, `Add breakfast`, `Choose seats`, `Travel by train`, `Switch to comfort`, `Book tickets`, `Lunch in city`, `Rent a car`, `Order Uber`];
 
-export const SORT_TYPES = {
+export const SortTypes = {
   DAY: `Day`,
   EVENT: `Event`,
   TIME: `Time`,
@@ -46,12 +46,12 @@ export const SORT_TYPES = {
   OFFERS: `Offers`,
 };
 
-export const TABS_TYPES = {
+export const TabsTypes = {
   TABLE: `Table`,
   STATS: `Stats`,
 };
 
-export const FILTERS_TYPES = {
+export const FiltersTypes = {
   EVERYTHING: `Everything`,
   FUTURE: `Future`,
   PAST: `Past`

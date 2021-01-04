@@ -1,21 +1,23 @@
 import {getRandomInteger} from "../utils.js";
-import {DESTINATION_POINTS, POINT_TYPES, POINT_DESCRIPRTIONS, POINT_OPTIONS, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
+import {cities, pointTypes, descriptions, options, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
 import {nanoid} from 'nanoid';
 import dayjs from 'dayjs';
 
+const getRandomArrayElem = (array) => {
+  return array[getRandomInteger(0, array.length - 1)];
+};
+
 const generateType = () => {
-  const randomIndex = getRandomInteger(0, POINT_TYPES.length - 1);
-  return POINT_TYPES[randomIndex];
+  return getRandomArrayElem(pointTypes);
 };
 
 const generateDestination = () => {
-  const randomIndex = getRandomInteger(0, DESTINATION_POINTS.length - 1);
-  return DESTINATION_POINTS[randomIndex];
+  return getRandomArrayElem(cities);
 };
 
 const generateDesription = () => {
-  const desriptionCount = getRandomInteger(0, POINT_DESCRIPRTIONS.length - 1);
-  const newDescription = POINT_DESCRIPRTIONS.slice(0, desriptionCount).join(``);
+  const desriptionCount = getRandomInteger(0, descriptions.length - 1);
+  const newDescription = descriptions.slice(0, desriptionCount).join(``);
 
   return newDescription;
 };
@@ -29,11 +31,9 @@ const generatePhotos = () => {
 };
 
 const generateOption = () => {
-  const desriptionOptions = getRandomInteger(0, POINT_OPTIONS.length - 1);
-
   return {
     id: nanoid(),
-    option: POINT_OPTIONS[desriptionOptions],
+    option: getRandomArrayElem(options),
     cost: getRandomInteger(1, MAX_COST),
     isChecked: Boolean(getRandomInteger(0, 1)),
   };

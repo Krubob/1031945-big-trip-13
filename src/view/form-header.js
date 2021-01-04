@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import {createElement} from "../utils.js";
-import {POINT_TYPES, DESTINATION_POINTS} from "../const";
+import {pointTypes, cities} from "../const";
 
 const createEventType = () => {
   let eventList = ``;
 
-  for (const eventType of POINT_TYPES) {
+  for (const eventType of pointTypes) {
     eventList += `
     <div class="event__type-item">
       <input id="event-type-${eventType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${eventType}">
@@ -20,7 +20,7 @@ const createEventType = () => {
 const createCity = () => {
   let citiesList = ``;
 
-  for (const destinationPoint of DESTINATION_POINTS) {
+  for (const destinationPoint of cities) {
     citiesList += `
     <option value="${destinationPoint}"></option>
   `;
