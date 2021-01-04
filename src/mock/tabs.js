@@ -1,13 +1,13 @@
-import {TABS_TYPES} from "../const.js";
+import {TabsTypes} from "../const.js";
 
 export const generateTabs = () => {
   return [
     {
-      name: TABS_TYPES.TABLE,
+      name: TabsTypes.TABLE,
       isActive: true,
     },
     {
-      name: TABS_TYPES.STATS,
+      name: TabsTypes.STATS,
       isActive: false,
     },
   ];

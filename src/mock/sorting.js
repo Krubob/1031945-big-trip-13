@@ -1,29 +1,29 @@
-import {SORT_TYPES} from "../const.js";
+import {SortTypes} from "../const.js";
 
 export const generateSorting = () => {
   return [
     {
-      name: SORT_TYPES.DAY,
+      name: SortTypes.DAY,
       isChecked: true,
       isDisabled: false,
     },
     {
-      name: SORT_TYPES.EVENT,
+      name: SortTypes.EVENT,
       isChecked: false,
       isDisabled: true,
     },
     {
-      name: SORT_TYPES.TIME,
+      name: SortTypes.TIME,
       isChecked: false,
       isDisabled: false,
     },
     {
-      name: SORT_TYPES.PRICE,
+      name: SortTypes.PRICE,
       isChecked: false,
       isDisabled: false,
     },
     {
-      name: SORT_TYPES.OFFERS,
+      name: SortTypes.OFFERS,
       isChecked: false,
       isDisabled: true,
     },

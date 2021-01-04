@@ -1,4 +1,6 @@
-export const createSortingTemplate = (sorting) => {
+import {createElement} from "../utils.js";
+
+const createSortingTemplate = (sorting) => {
   return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     ${sorting.map((item)=>{
     return `<div class="trip-sort__item  trip-sort__item--${item.name.toLowerCase()}">
@@ -8,3 +10,26 @@ export const createSortingTemplate = (sorting) => {
   }).join(``)}
 </form>`;
 };
+
+export default class SortingView {
+  constructor(sorting) {
+    this._element = null;
+    this._sorting = sorting;
+  }
+
+  getTemplate() {
+    return createSortingTemplate(this._sorting);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
