@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 
 const createTabsTemplate = (tabs) => {
   return `<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -8,25 +8,12 @@ const createTabsTemplate = (tabs) => {
 </nav>`;
 };
 
-export default class TabsView {
+export default class TabsView extends AbstractView {
   constructor(tabs) {
-    this._element = null;
+    super();
     this._tabs = tabs;
   }
-
   getTemplate() {
     return createTabsTemplate(this._tabs);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,27 +1,16 @@
-import {createElement} from "../utils";
+import AbstractView from "./abstract.js";
 
 const createFormDescriptionTemplate = ({destionationInfo}) => {
   return `<p class="event__destination-description">${destionationInfo.description}</p>`;
 };
 
-export default class FormDescriptionView {
+export default class FormDescriptionView extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
   }
 
   getTemplate() {
     return createFormDescriptionTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

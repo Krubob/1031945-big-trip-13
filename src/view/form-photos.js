@@ -1,5 +1,4 @@
-import {createElement} from "../utils.js";
-
+import AbstractView from "./abstract.js";
 
 const createFormPhotosTemplate = ({destionationInfo}) => {
   return `<div class="event__photos-container">
@@ -11,25 +10,13 @@ const createFormPhotosTemplate = ({destionationInfo}) => {
 </div>`;
 };
 
-export default class FormPhotosView {
+export default class FormPhotosView extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
   }
 
   getTemplate() {
     return createFormPhotosTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
