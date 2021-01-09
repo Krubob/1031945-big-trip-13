@@ -15,7 +15,7 @@ export const cities = [
   `San Francisco`
 ];
 
-export const pointTypes = [
+export const eventTypes = [
   `Taxi`,
   `Bus`,
   `Train`,

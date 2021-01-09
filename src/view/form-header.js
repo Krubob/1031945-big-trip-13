@@ -1,32 +1,20 @@
 import dayjs from 'dayjs';
-import {createElement} from "../utils.js";
-import {pointTypes, cities} from "../const";
+import AbstractView from "./abstract.js";
+import {eventTypes, cities} from "../const";
 
-const createEventType = () => {
-  let eventList = ``;
-
-  for (const eventType of pointTypes) {
-    eventList += `
+const createEventTemplate = (eventType) => {
+  return `
     <div class="event__type-item">
       <input id="event-type-${eventType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${eventType}">
       <label class="event__type-label  event__type-label--${eventType}" for="event-type-${eventType}-1" style="::before">${eventType}</label>
     </div>
-    `;
-  }
-
-  return eventList;
+  `;
 };
 
-const createCity = () => {
-  let citiesList = ``;
-
-  for (const destinationPoint of cities) {
-    citiesList += `
-    <option value="${destinationPoint}"></option>
+const createCityTemplate = (destinationCity) => {
+  return `
+    <option value="${destinationCity}"></option>
   `;
-  }
-
-  return citiesList;
 };
 
 const createFormHeaderTemplate = ({type, destionation, cost, startTime, endTime}) => {
@@ -50,7 +38,9 @@ const createFormHeaderTemplate = ({type, destionation, cost, startTime, endTime}
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
-          ${createEventType()}
+          ${cities
+            .map((destinationCity) => createCityTemplate(destinationCity))
+            .join(``)}
         </fieldset>
       </div>
     </div>
@@ -61,7 +51,9 @@ const createFormHeaderTemplate = ({type, destionation, cost, startTime, endTime}
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destionation}" list="destination-list-1">
       <datalist id="destination-list-1">
-        ${createCity()}
+        ${eventTypes
+          .map((eventType) => createEventTemplate(eventType))
+          .join(``)}
       </datalist>
     </div>
 
@@ -89,25 +81,13 @@ const createFormHeaderTemplate = ({type, destionation, cost, startTime, endTime}
 </header>`;
 };
 
-export default class FormHeaderView {
+export default class FormHeaderView extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
   }
 
   getTemplate() {
     return createFormHeaderTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

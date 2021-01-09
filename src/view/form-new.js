@@ -2,6 +2,7 @@ import {createElement} from "../utils.js";
 import FormHeaderView from "./form-header.js";
 import AvailableOffersView from "./available-offers.js";
 import FormPhotosView from "./form-photos.js";
+import AbstractView from "./abstract.js";
 import {render} from "../utils.js";
 import {InsertPosition} from "../const";
 
@@ -28,9 +29,9 @@ const createFormNewTemplate = ({destionationInfo}) => {
 </li>`;
 };
 
-export default class FormNewView {
+export default class FormNewView extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._eventHeaderElement = null;
     this._eventAvailableOffersElement = null;
     this._formDescriptionElement = null;

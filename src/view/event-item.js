@@ -1,23 +1,17 @@
 import dayjs from 'dayjs';
+import AbstractView from "./abstract.js";
 import {ONE_HOUR_IN_MINUTES, ONE_DAY_IN_MINUTES, TEN_MINUTES} from "../const";
-import {createElement} from "../utils.js";
 
-const createEventOffer = (options) => {
-  let selectedOffers = ``;
-
-  for (const item of options) {
-    selectedOffers += `
+const createSelectedOfferTemplate = (offer) => {
+  return `
     <li class="event__offer">
-      <span class="event__offer-title">${item.option}</span>
+      <span class="event__offer-title">${offer.option}</span>
       &plus;&euro;&nbsp;
-      <span class="event__offer-price">${item.cost}</span>
+      <span class="event__offer-price">${offer.cost}</span>
     </li>`;
-  }
-
-  return selectedOffers;
 };
 
-const createEventItemTemplate = (event) => {
+const createEventTemplate = (event) => {
   const {type, destionation, startTime, endTime, cost, options, isFavorite} = event;
 
   const dateToStart = startTime !== null
@@ -92,7 +86,9 @@ const createEventItemTemplate = (event) => {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      ${createEventOffer(options)}
+      ${options
+        .map((offer) => createSelectedOfferTemplate(offer))
+        .join(``)}
     </ul>
     <button class="${`event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}`}" type="button">
       <span class="visually-hidden">Add to favorite</span>
@@ -108,25 +104,13 @@ const createEventItemTemplate = (event) => {
 };
 
 
-export default class EventItemView {
+export default class EventItemView extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
   }
 
   getTemplate() {
-    return createEventItemTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createEventTemplate(this._event);
   }
 }

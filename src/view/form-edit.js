@@ -1,5 +1,6 @@
 import {InsertPosition} from "../const";
-import {createElement, render} from "../utils.js";
+import {render, createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 import FormHeaderView from "./form-header.js";
 import FormPhotosView from "./form-photos.js";
 import AvailableOffersView from "./available-offers.js";
@@ -23,9 +24,9 @@ const createFormEditTemplate = () => {
 </li>`;
 };
 
-export default class FormEditView {
+export default class FormEditView extends AbstractView {
   constructor(event) {
-    this._element = null;
+    super();
     this._eventHeaderElement = null;
     this._eventAvailableOffersElement = null;
     this._event = event;

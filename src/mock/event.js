@@ -1,5 +1,5 @@
 import {getRandomInteger} from "../utils.js";
-import {cities, pointTypes, descriptions, options, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
+import {cities, eventTypes, descriptions, options, PHOTO_URL, MIN_COST, MAX_COST, MAX_DAYS_GAP, MAX_HOURS_GAP} from "../const.js";
 import {nanoid} from 'nanoid';
 import dayjs from 'dayjs';
 
@@ -8,7 +8,7 @@ const getRandomArrayElem = (array) => {
 };
 
 const generateType = () => {
-  return getRandomArrayElem(pointTypes);
+  return getRandomArrayElem(eventTypes);
 };
 
 const generateDestination = () => {
