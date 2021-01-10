@@ -29,9 +29,6 @@ const getRandomArrayElem = (array) => {
 const renderEvent = (eventElement, event) => {
   const eventComponent = new EventItemView(event);
   const eventEditComponent = new FormEditView(event);
-  const rollupBtnOpenElement = eventComponent.getElement().querySelector(`.event__rollup-btn`);
-  const rollupBtnCloseElement = eventEditComponent.getElement().querySelector(`.event__rollup-btn`);
-  const formEditElement = eventEditComponent.getElement().querySelector(`.event--edit`);
 
   const replaceEventToForm = () => {
     eventElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
@@ -49,17 +46,16 @@ const renderEvent = (eventElement, event) => {
     }
   };
 
-  rollupBtnOpenElement.addEventListener(`click`, () => {
+  eventComponent.setRollupOpenClickHandler(() => {
     replaceEventToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  rollupBtnCloseElement.addEventListener(`click`, () => {
+  eventEditComponent.setRollupCloseClickHandler(() => {
     replaceFormToEvent();
   });
 
-  formEditElement.addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  eventEditComponent.setFormEditSubmitHandler(() => {
     replaceFormToEvent();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
