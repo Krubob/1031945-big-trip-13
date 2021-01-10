@@ -62,3 +62,8 @@ export const InsertPosition = {
   AFTEREND: `afterend`,
   AFTERBEGIN: `afterbegin`,
 };
+
+export const FormType = {
+  FORM_EDIT: `form_edit`,
+  FORM_NEW: `form_new`
+};

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import AbstractView from "./abstract.js";
-import {eventTypes, cities} from "../const";
+import {eventTypes, cities, FormType} from "../const";
 
 const createEventTemplate = (eventType) => {
   return `
@@ -17,7 +17,8 @@ const createCityTemplate = (destinationCity) => {
   `;
 };
 
-const createFormHeaderTemplate = ({type, destionation, cost, startTime, endTime}) => {
+const createFormHeaderTemplate = (event, formType) => {
+  const {type, destionation, cost, startTime, endTime} = event;
 
   const machineTypeTimeStart = startTime !== null
     ? dayjs(startTime).format(`MM/DD/YY hh:mm`)
@@ -72,22 +73,25 @@ const createFormHeaderTemplate = ({type, destionation, cost, startTime, endTime}
       </label>
       <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${cost}">
     </div>
-
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-    <button class="event__reset-btn" type="reset">Delete</button>
+    ${formType === FormType.FORM_EDIT ?
+    `<button class="event__reset-btn" type="reset">Delete</button>
     <button class="event__rollup-btn" type="button">
       <span class="visually-hidden">Open event</span>
-    </button>
+    </button>` :
+    `<button class="event__reset-btn" type="reset">Cancel</button>`
+}
 </header>`;
 };
 
 export default class FormHeaderView extends AbstractView {
-  constructor(event) {
+  constructor(event, formType) {
     super();
     this._event = event;
+    this._formType = formType;
   }
 
   getTemplate() {
-    return createFormHeaderTemplate(this._event);
+    return createFormHeaderTemplate(this._event, this._formType);
   }
 }

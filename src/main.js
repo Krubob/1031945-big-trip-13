@@ -4,15 +4,14 @@ import FiltersView from "./view/filters.js";
 import SortingView from "./view/sorting.js";
 import EventList from "./view/event-list.js";
 import EventItemView from "./view/event-item.js";
-import FormEditView from "./view/form-edit.js";
-import FormNewView from "./view/form-new.js";
+import FormView from "./view/form.js";
 import EventEmptyView from "./view/event-empty";
 import {generateEvent} from "./mock/event.js";
 import {generateFilters} from "./mock/filters.js";
 import {generateTabs} from "./mock/tabs.js";
 import {generateSorting} from "./mock/sorting.js";
 import {getRandomInteger, render} from "./utils.js";
-import {InsertPosition} from "./const";
+import {InsertPosition, FormType} from "./const";
 
 const EVENT_COUNT = 15;
 
@@ -28,7 +27,7 @@ const getRandomArrayElem = (array) => {
 
 const renderEvent = (eventElement, event) => {
   const eventComponent = new EventItemView(event);
-  const eventEditComponent = new FormEditView(event);
+  const eventEditComponent = new FormView(event, FormType.FORM_EDIT);
 
   const replaceEventToForm = () => {
     eventElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
@@ -75,7 +74,7 @@ if (events.length !== 0) {
     renderEvent(eventsListElement, events[i]);
   }
 
-  render(eventsListElement, new FormNewView(getRandomArrayElem(events)).getElement(), InsertPosition.BEFOREEND);
+  render(eventsListElement, new FormView(getRandomArrayElem(events), FormType.FORM_NEW).getElement(), InsertPosition.BEFOREEND);
 } else {
   render(tabsTitleElement, new TabsView(generateTabs()).getElement(), InsertPosition.AFTEREND);
   render(filtersTitleElement, new FiltersView(generateFilters()).getElement(), InsertPosition.AFTEREND);
