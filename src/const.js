@@ -15,7 +15,7 @@ export const cities = [
   `San Francisco`
 ];
 
-export const pointTypes = [
+export const eventTypes = [
   `Taxi`,
   `Bus`,
   `Train`,
@@ -61,4 +61,9 @@ export const InsertPosition = {
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`,
   AFTERBEGIN: `afterbegin`,
+};
+
+export const FormType = {
+  FORM_EDIT: `form_edit`,
+  FORM_NEW: `form_new`
 };
