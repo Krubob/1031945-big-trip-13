@@ -19,6 +19,7 @@ export default class Trip {
 
     this._onDataPointChange = this._onDataPointChange.bind(this);
     this._resetToDefaultState = this._resetToDefaultState.bind(this);
+    this._onSortTypeClick = this._onSortTypeClick.bind(this);
   }
 
   init(points) {
@@ -29,6 +30,10 @@ export default class Trip {
   _onDataPointChange(updatedPoint) {
     this._points = updatePoint(this._points, updatedPoint);
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
+  }
+
+  _onSortTypeClick(sortType) {
+
   }
 
   _resetToDefaultState() {
@@ -51,6 +56,7 @@ export default class Trip {
 
   _renderSorting() {
     render(this._tripContainer, this._sortingView, InsertPosition.BEFOREEND);
+    this._sortingView.setSortTypeChangeHandler(this._onSortTypeClick);
   }
 
   _renderTrip() {
