@@ -39,7 +39,7 @@ export default class FormView extends AbstractView {
   _formEditSubmitHandler(evt) {
     evt.preventDefault();
 
-    this._callback.submit();
+    this._callback.formEditsubmit(this._event);
   }
 
   _rollupCloseClickHandler(evt) {
@@ -49,7 +49,7 @@ export default class FormView extends AbstractView {
   }
 
   setFormEditSubmitHandler(callback) {
-    this._callback.submit = callback;
+    this._callback.formEditsubmit = callback;
     this.getElement().querySelector(`.event--edit`).addEventListener(`submit`, this._formEditSubmitHandler);
   }
 

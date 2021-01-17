@@ -67,3 +67,8 @@ export const FormType = {
   FORM_EDIT: `form_edit`,
   FORM_NEW: `form_new`
 };
+
+export const State = {
+  DEFAULT: `DEFAULT`,
+  EDITING: `EDITING`,
+};
