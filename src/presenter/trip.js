@@ -1,6 +1,6 @@
 import SortingView from "../view/sorting.js";
-import EventList from "../view/event-list.js";
-import EventEmptyView from "../view/event-empty";
+import PointListView from "../view/point-list.js";
+import PointEmptyView from "../view/point-empty";
 import {generateSorting} from "../mock/sorting.js";
 import {InsertPosition} from "../const";
 import {render, updatePoint} from "../utils.js";
@@ -14,11 +14,11 @@ export default class Trip {
     this._sorting = generateSorting();
 
     this._sortingView = new SortingView(this._sorting);
-    this._tripListComponent = new EventList();
-    this._tripEmptyListComponent = new EventEmptyView();
+    this._pointListComponent = new PointListView();
+    this._pointEmptyComponent = new PointEmptyView();
 
-    this._onPointChange = this._onPointChange.bind(this);
-    this._onStateChange = this._onStateChange.bind(this);
+    this._onDataPointChange = this._onDataPointChange.bind(this);
+    this._resetToDefaultState = this._resetToDefaultState.bind(this);
   }
 
   init(points) {
@@ -36,7 +36,7 @@ export default class Trip {
   }
 
   _renderPoint(point) {
-    const pointPresenter = new PointPresenter(this._tripListComponent, this._onDataPointChange, this._resetToDefaultState);
+    const pointPresenter = new PointPresenter(this._pointListComponent, this._onDataPointChange, this._resetToDefaultState);
     pointPresenter.init(point);
     this._pointPresenter[point.id] = pointPresenter;
   }
@@ -46,7 +46,7 @@ export default class Trip {
   }
 
   _renderPointsEmptyList() {
-    render(this._tripContainer, this._tripEmptyListComponent, InsertPosition.BEFOREEND);
+    render(this._tripContainer, this._pointEmptyComponent, InsertPosition.BEFOREEND);
   }
 
   _renderSorting() {
@@ -59,7 +59,7 @@ export default class Trip {
     }
 
     this._renderSorting();
-    render(this._tripContainer, this._tripListComponent, InsertPosition.BEFOREEND);
+    render(this._tripContainer, this._pointListComponent, InsertPosition.BEFOREEND);
     this._renderPointsList();
   }
 }

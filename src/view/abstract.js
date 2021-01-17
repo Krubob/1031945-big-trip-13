@@ -3,7 +3,7 @@ import {createElement} from "../utils.js";
 export default class Abstract {
   constructor() {
     if (new.target === Abstract) {
-      throw new Error(`Can't instantiate Abstract, only concrete one.`);
+      throw new Error(`Can't instantiate ${Abstract.name}, only concrete one.`);
     }
 
     this._element = null;
@@ -11,7 +11,7 @@ export default class Abstract {
   }
 
   getTemplate() {
-    throw new Error(`Abstract method not implemented: getTemplate`);
+    throw new Error(`Abstract method not implemented: ${this.getTemplate.name}`);
   }
 
   getElement() {

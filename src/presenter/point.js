@@ -1,4 +1,4 @@
-import EventItemView from "../view/event-item.js";
+import PointView from "../view/point.js";
 import FormView from "../view/form.js";
 import {InsertPosition, FormType, State} from "../const";
 import {render, replace, remove} from "../utils.js";
@@ -26,7 +26,7 @@ export default class Point {
     const prevPointComponent = this._pointComponent;
     const prevPointEditComponent = this._pointEditComponent;
 
-    this._pointComponent = new EventItemView(point);
+    this._pointComponent = new PointView(point);
     this._pointEditComponent = new FormView(point, FormType.FORM_EDIT);
 
     this._pointComponent.setRollupOpenClickHandler(this._onRollupBtnOpenClick);
