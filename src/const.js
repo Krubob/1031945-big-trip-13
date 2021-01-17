@@ -72,3 +72,9 @@ export const State = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`,
 };
+
+export const SortType = {
+  DEFAULT: `DEFAULT`,
+  PRICE_DOWN: `PRICE_DOWN`,
+  TIME_DOWN: `TIME_DOWN`,
+};

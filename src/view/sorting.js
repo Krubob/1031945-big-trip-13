@@ -14,10 +14,23 @@ const createSortingTemplate = (sorting) => {
 export default class SortingView extends AbstractView {
   constructor(sorting) {
     super();
+
     this._sorting = sorting;
+
+    this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
     return createSortingTemplate(this._sorting);
+  }
+
+  _sortTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this._callback.sortTypeChange(evt.target.value);
+  }
+
+  setSortTypeChangeHandler(callback) {
+    this._callback.sortTypeChange = callback;
+    this.getElement().addEventListener(`click`, this._sortTypeChangeHandler);
   }
 }
