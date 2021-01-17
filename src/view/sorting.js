@@ -25,6 +25,10 @@ export default class SortingView extends AbstractView {
   }
 
   _sortTypeChangeHandler(evt) {
+    if (evt.target.tagName !== `INPUT`) {
+      return;
+    }
+
     evt.preventDefault();
     this._callback.sortTypeChange(evt.target.value);
   }
