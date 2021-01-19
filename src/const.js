@@ -39,11 +39,11 @@ export const descriptions = [
 export const options = [`Add luggage`, `Add meal`, `Add breakfast`, `Choose seats`, `Travel by train`, `Switch to comfort`, `Book tickets`, `Lunch in city`, `Rent a car`, `Order Uber`];
 
 export const SortTypes = {
-  DAY: `Day`,
-  EVENT: `Event`,
-  TIME: `Time`,
-  PRICE: `Price`,
-  OFFERS: `Offers`,
+  DAY: `day`,
+  EVENT: `event`,
+  TIME: `time`,
+  PRICE: `price`,
+  OFFERS: `offers`,
 };
 
 export const TabsTypes = {
@@ -71,4 +71,10 @@ export const FormType = {
 export const State = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`,
+};
+
+export const SortType = {
+  DEFAULT: `sort-day`,
+  PRICE_DOWN: `sort-price`,
+  TIME_DOWN: `sort-time`,
 };

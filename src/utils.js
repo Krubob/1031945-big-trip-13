@@ -80,3 +80,13 @@ export const remove = (component) => {
   component.getElement().remove();
   component.removeElement();
 };
+
+export const sortTimeDown = (pointA, pointB) => {
+  const durationA = pointA.endTime - pointA.startTime;
+  const durationB = pointB.endTime - pointB.startTime;
+  return durationB - durationA;
+};
+
+export const sortPriceDown = (priceA, priceB) => {
+  return priceB.cost - priceA.cost;
+};

@@ -97,4 +97,9 @@ export default class Point {
     this._changeData(point);
     this._replaceFormEditToPoint();
   }
+
+  clear() {
+    remove(this._pointComponent);
+    remove(this._pointEditComponent);
+  }
 }
