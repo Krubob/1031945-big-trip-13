@@ -39,9 +39,7 @@ const createFormHeaderTemplate = (event, formType) => {
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
-          ${cities
-            .map((destinationCity) => createCityTemplate(destinationCity))
-            .join(``)}
+          ${cities.map(createCityTemplate).join(``)}
         </fieldset>
       </div>
     </div>
@@ -52,9 +50,7 @@ const createFormHeaderTemplate = (event, formType) => {
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destionation}" list="destination-list-1">
       <datalist id="destination-list-1">
-        ${eventTypes
-          .map((eventType) => createEventTemplate(eventType))
-          .join(``)}
+        ${eventTypes.map(createEventTemplate).join(``)}
       </datalist>
     </div>
 

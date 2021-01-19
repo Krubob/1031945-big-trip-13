@@ -14,9 +14,7 @@ const createAvailableOfferTemplate = (item) => {
 const createAvailableOffersTemplate = (event) => {
   const {options} = event;
   return `<div class="event__available-offers">
-    ${options
-      .map((option) => createAvailableOfferTemplate(option))
-      .join(``)}
+    ${options.map(createAvailableOfferTemplate).join(``)}
   </div>`;
 };
 

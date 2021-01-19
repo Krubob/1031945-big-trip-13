@@ -11,7 +11,7 @@ const createSelectedOfferTemplate = (offer) => {
     </li>`;
 };
 
-const createEventTemplate = (event) => {
+const createPointTemplate = (event) => {
   const {type, destionation, startTime, endTime, cost, options, isFavorite} = event;
 
   const dateToStart = startTime !== null
@@ -86,9 +86,7 @@ const createEventTemplate = (event) => {
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      ${options
-        .map((offer) => createSelectedOfferTemplate(offer))
-        .join(``)}
+      ${options.map(createSelectedOfferTemplate).join(``)}
     </ul>
     <button class="${`event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}`}" type="button">
       <span class="visually-hidden">Add to favorite</span>
@@ -104,15 +102,16 @@ const createEventTemplate = (event) => {
 };
 
 
-export default class EventItemView extends AbstractView {
+export default class pointView extends AbstractView {
   constructor(event) {
     super();
     this._event = event;
     this._rollupOpenClickHandler = this._rollupOpenClickHandler.bind(this);
+    this._favoriteBtnClickHandler = this._favoriteBtnClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createEventTemplate(this._event);
+    return createPointTemplate(this._event);
   }
 
   _rollupOpenClickHandler(evt) {
@@ -124,5 +123,15 @@ export default class EventItemView extends AbstractView {
   setRollupOpenClickHandler(callback) {
     this._callback.clickRollupOpen = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupOpenClickHandler);
+  }
+
+  _favoriteBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteBtnClick();
+  }
+
+  setFavoriteBtnClickHandler(callback) {
+    this._callback.favoriteBtnClick = callback;
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteBtnClickHandler);
   }
 }
