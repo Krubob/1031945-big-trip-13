@@ -4,10 +4,10 @@ import {InsertPosition, FormType, State} from "../const";
 import {render, replace, remove} from "../utils.js";
 
 export default class Point {
-  constructor(tripListContainer, changeData, _changeToDefaultState) {
+  constructor(tripListContainer, changeData, changeState) {
     this._tripListContainer = tripListContainer;
     this._changeData = changeData;
-    this._changeToDefaultState = _changeToDefaultState;
+    this._changeState = changeState;
 
     this._pointComponent = null;
     this._pointEditComponent = null;
@@ -52,7 +52,7 @@ export default class Point {
   }
 
 
-  setDefaultStateView() {
+  resetView() {
     if (this._state !== State.DEFAULT) {
       this._replaceFormEditToPoint();
     }
@@ -61,7 +61,7 @@ export default class Point {
   _replacePointToFormEdit() {
     replace(this._pointEditComponent, this._pointComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-    this._changeToDefaultState();
+    this._changeState();
     this._state = State.EDITING;
   }
 
