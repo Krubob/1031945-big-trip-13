@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {InsertPosition, AdditionalOffers} from "../const";
 import {generateDestination} from "../mock/event.js";
 import {render, createElement} from "../utils.js";
@@ -33,13 +34,17 @@ export default class FormView extends SmartView {
     this._eventAvailableOffersElement = null;
     this._data = event;
     this._formType = formType;
+    this._datepickers = {};
 
     this._formEditSubmitHandler = this._formEditSubmitHandler.bind(this);
     this._rollupCloseClickHandler = this._rollupCloseClickHandler.bind(this);
     this._eventTypeToggleHandler = this._eventTypeToggleHandler.bind(this);
     this._cityToggleHandler = this._cityToggleHandler.bind(this);
+    this._startTimeChangeHandler = this._startTimeChangeHandler.bind(this);
+    this._endTimeChangeHandler = this._endTimeChangeHandler.bind(this);
 
     this._setInnerHandlers();
+    this._setDatepickers();
   }
 
   getTemplate() {
@@ -52,8 +57,21 @@ export default class FormView extends SmartView {
 
   restoreHandlers() {
     this._setInnerHandlers();
+    this._setDatepickers();
     this.setRollupCloseClickHandler(this._callback.clickRollupClose);
     this.setFormEditSubmitHandler(this._callback.formEditsubmit);
+  }
+
+  _setDatepickers() {
+    this._setDatepickerStartTime(`start-time`);
+    this._setDatepickerEndTime(`end-time`);
+  }
+
+  _destroyDatepicker(periodTime) {
+    if (this._datepickers && this._datepickers[periodTime]) {
+      this._datepickers[periodTime].destroy();
+      this._datepickers[periodTime] = null;
+    }
   }
 
   _setInnerHandlers() {
@@ -66,6 +84,46 @@ export default class FormView extends SmartView {
     this.getElement()
     .querySelector(`.event__input--destination`)
     .addEventListener(`change`, this._cityToggleHandler);
+  }
+
+  _setDatepickerStartTime(periodTime) {
+    this._destroyDatepicker(periodTime);
+
+    this._datepickers[periodTime] = flatpickr(
+        this.getElement().querySelector(`.event__input--time[name='event-${periodTime}']`),
+        {
+          dateFormat: `d/m/y H:i`,
+          enableTime: true,
+          defaultDate: this._data[periodTime],
+          onChange: this._startTimeChangeHandler,
+        }
+    );
+  }
+
+  _setDatepickerEndTime(periodTime) {
+    this._destroyDatepicker(periodTime);
+
+    this._datepickers[periodTime] = flatpickr(
+        this.getElement().querySelector(`.event__input--time[name='event-${periodTime}']`),
+        {
+          dateFormat: `d/m/y H:i`,
+          enableTime: true,
+          defaultDate: this._data[periodTime],
+          onChange: this._endTimeChangeHandler,
+        }
+    );
+  }
+
+  _startTimeChangeHandler([userDate]) {
+    this.updateData({
+      startTime: dayjs(userDate)
+    });
+  }
+
+  _endTimeChangeHandler([userDate]) {
+    this.updateData({
+      endTime: dayjs(userDate)
+    });
   }
 
   _eventTypeToggleHandler(evt) {

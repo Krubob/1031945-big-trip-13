@@ -100,7 +100,7 @@ export default class Point {
     this._replaceFormEditToPoint();
   }
 
-  clear() {
+  destroy() {
     remove(this._pointComponent);
     remove(this._pointEditComponent);
   }
