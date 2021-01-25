@@ -12,7 +12,7 @@ const createSelectedOfferTemplate = (offer) => {
 };
 
 const createPointTemplate = (event) => {
-  const {type, destionation, startTime, endTime, cost, options, isFavorite} = event;
+  const {type, destination, startTime, endTime, cost, options, isFavorite} = event;
 
   const dateToStart = startTime !== null
     ? dayjs(startTime).format(`MMM DD`)
@@ -72,7 +72,7 @@ const createPointTemplate = (event) => {
     <div class="event__type">
       <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
     </div>
-    <h3 class="event__title">${type} ${destionation}</h3>
+    <h3 class="event__title">${type} ${destination.city}</h3>
     <div class="event__schedule">
       <p class="event__time">
         <time class="event__start-time" datetime="${machineTypeTimeStart}">${timeToStart}</time>

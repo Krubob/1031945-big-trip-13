@@ -74,6 +74,7 @@ export default class Point {
   _onEscKeyDown(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
+      this._pointEditComponent.reset(this._point);
       this._replaceFormEditToPoint();
       document.removeEventListener(`keydown`, this._onEscKeyDown);
     }
@@ -85,6 +86,7 @@ export default class Point {
   }
 
   _onRollupBtnCloseClick() {
+    this._pointEditComponent.reset(this._point);
     this._replaceFormEditToPoint();
     document.addEventListener(`keydown`, this._onEscKeyDown);
   }

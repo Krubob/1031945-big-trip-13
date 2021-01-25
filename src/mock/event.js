@@ -11,7 +11,7 @@ const generateType = () => {
   return getRandomArrayElem(eventTypes);
 };
 
-const generateDestination = () => {
+const generateCity = () => {
   return getRandomArrayElem(cities);
 };
 
@@ -51,10 +51,10 @@ const generateDate = () => {
   return dayjs().add(daysGap, `day`).add(hoursGap, `hours`).add(minutesGap, `minute`);
 };
 
-export const getDestination = (city) => {
+export const generateDestination = (city) => {
   return {
-    destination: city,
-    destinationInfo: {
+    city,
+    info: {
       description: generateDesription(),
       photos: generatePhotos(),
     },
@@ -62,6 +62,7 @@ export const getDestination = (city) => {
 };
 
 export const generateEvent = () => {
+  const randomCity = generateCity();
   const startTime = generateDate();
   let endTime = generateDate();
 
@@ -72,11 +73,12 @@ export const generateEvent = () => {
   return {
     id: nanoid(),
     type: generateType(),
-    destination: generateDestination(),
-    destinationInfo: {
-      description: generateDesription(),
-      photos: generatePhotos(),
-    },
+    // destination: generateDestination(),
+    // destinationInfo: {
+    //   description: generateDesription(),
+    //   photos: generatePhotos(),
+    // },
+    destination: generateDestination(randomCity),
     startTime,
     endTime,
     cost: getRandomInteger(MIN_COST, MAX_COST),
