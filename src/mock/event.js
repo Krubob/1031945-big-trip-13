@@ -51,6 +51,16 @@ const generateDate = () => {
   return dayjs().add(daysGap, `day`).add(hoursGap, `hours`).add(minutesGap, `minute`);
 };
 
+export const getDestination = (city) => {
+  return {
+    destination: city,
+    destinationInfo: {
+      description: generateDesription(),
+      photos: generatePhotos(),
+    },
+  };
+};
+
 export const generateEvent = () => {
   const startTime = generateDate();
   let endTime = generateDate();
@@ -62,8 +72,8 @@ export const generateEvent = () => {
   return {
     id: nanoid(),
     type: generateType(),
-    destionation: generateDestination(),
-    destionationInfo: {
+    destination: generateDestination(),
+    destinationInfo: {
       description: generateDesription(),
       photos: generatePhotos(),
     },

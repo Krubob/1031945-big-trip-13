@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import AbstractView from "./abstract.js";
-import {eventTypes, cities, FormType} from "../const";
+import SmartView from "./smart.js";
+import {getDestination} from "../mock/event.js";
+import {eventTypes, cities, FormType, AdditionalOffers} from "../const";
 
 const createEventTemplate = (eventType) => {
   return `
@@ -80,14 +81,36 @@ const createFormHeaderTemplate = (event, formType) => {
 </header>`;
 };
 
-export default class FormHeaderView extends AbstractView {
-  constructor(event, formType) {
+export default class FormHeaderView extends SmartView {
+  constructor(event = {}, formType) {
     super();
-    this._event = event;
+    this._data = event;
     this._formType = formType;
+    this._eventTypeToggleHandler = this._eventTypeToggleHandler.bind(this);
+    this._cityToggleHandler = this._cityToggleHandler.bind(this);
   }
 
   getTemplate() {
-    return createFormHeaderTemplate(this._event, this._formType);
+    return createFormHeaderTemplate(this._data, this._formType);
+  }
+
+  _eventTypeToggleHandler(evt) {
+    evt.preventDefault();
+    let type = evt.target.value;
+
+    // if (!eventTypes[type]) {
+    //   return;
+    // }
+    this.updateData({
+      type,
+      options: AdditionalOffers[type] ? AdditionalOffers[type] : [],
+    });
+  }
+
+  _cityToggleHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      destination: getDestination(evt.target.value),
+    });
   }
 }

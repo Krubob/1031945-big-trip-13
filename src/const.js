@@ -1,3 +1,5 @@
+import {nanoid} from 'nanoid';
+
 export const PHOTO_URL = `http://picsum.photos/248/152?r`;
 export const MIN_COST = 1;
 export const MAX_COST = 1000;
@@ -77,4 +79,73 @@ export const SortType = {
   DEFAULT: `sort-day`,
   PRICE_DOWN: `sort-price`,
   TIME_DOWN: `sort-time`,
+};
+
+export const AdditionalOffers = {
+  taxi: [
+    {
+      id: nanoid(),
+      option: `Add luggage`,
+      cost: 30,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Rent a car`,
+      cost: 70,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Order Uber`,
+      cost: 50,
+      isChecked: false,
+    },
+  ],
+  ship: [
+    {
+      id: nanoid(),
+      option: `Add luggage`,
+      cost: 30,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Switch to comfort`,
+      cost: 100,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Add meal`,
+      cost: 20,
+      isChecked: false,
+    },
+  ],
+  flight: [
+    {
+      id: nanoid(),
+      option: `Switch to comfort`,
+      cost: 100,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Choose seats`,
+      cost: 10,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Book tickets`,
+      cost: 15,
+      isChecked: false,
+    },
+    {
+      id: nanoid(),
+      option: `Add meal`,
+      cost: 20,
+      isChecked: false,
+    },
+  ]
 };

@@ -9,11 +9,12 @@ import FormDescriptionView from "./form-description.js";
 const createFormEditTemplate = (event) => {
   return `<li class="trip-events__item">
   <form class="event event--edit" action="#" method="post">
+
     <section class="event__details">
     ${event.options.length !== 0 ? `<section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3></section>` : ``}
 
-    ${event.destionationInfo.description !== `` || event.destionationInfo.photos.length !== 0 ? `<section class="event__section  event__section--destination">
+    ${event.destinationInfo.description !== `` || event.destinationInfo.photos.length !== 0 ? `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3></section>` : ``}
 
     </section>
@@ -72,7 +73,7 @@ export default class FormView extends AbstractView {
         render(this._eventAvailableOffersElement, formEditAvailableOffersView, InsertPosition.BEFOREEND);
       }
 
-      if (this._event.destionationInfo.description !== `` || this._event.destionationInfo.photos.length !== 0) {
+      if (this._event.destinationInfo.description !== `` || this._event.destinationInfo.photos.length !== 0) {
         this._eventDestinationElement = this._element.querySelector(`.event__section--destination`);
         const formEditDescriptionView = new FormDescriptionView(this._event).getElement();
         render(this._eventDestinationElement, formEditDescriptionView, InsertPosition.BEFOREEND);
