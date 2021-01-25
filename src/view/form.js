@@ -6,6 +6,8 @@ import FormHeaderView from "./form-header.js";
 import FormPhotosView from "./form-photos.js";
 import AvailableOffersView from "./available-offers.js";
 import FormDescriptionView from "./form-description.js";
+import flatpickr from "flatpickr";
+import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 const createFormEditTemplate = (event) => {
   return `<li class="trip-events__item">
