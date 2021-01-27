@@ -1,7 +1,7 @@
 import AbstractView from "./abstract.js";
 
-const createFormDescriptionTemplate = ({destionationInfo}) => {
-  return `<p class="event__destination-description">${destionationInfo.description}</p>`;
+const createFormDescriptionTemplate = ({destination}) => {
+  return `<p class="event__destination-description">${destination.info.description}</p>`;
 };
 
 export default class FormDescriptionView extends AbstractView {

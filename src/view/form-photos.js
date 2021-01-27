@@ -1,9 +1,9 @@
 import AbstractView from "./abstract.js";
 
-const createFormPhotosTemplate = ({destionationInfo}) => {
+const createFormPhotosTemplate = ({destination}) => {
   return `<div class="event__photos-container">
   <div class="event__photos-tape">
-  ${destionationInfo.photos.map((photo)=>{
+  ${destination.info.photos.map((photo)=>{
     return `<img class="event__photo" src="${photo}" alt="Event photo"></img>`;
   })}
   </div>

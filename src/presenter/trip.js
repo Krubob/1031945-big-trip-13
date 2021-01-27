@@ -17,8 +17,8 @@ export default class Trip {
     this._pointListComponent = new PointListView();
     this._pointEmptyComponent = new PointEmptyView();
 
-    this._onDataPointChange = this._onDataPointChange.bind(this);
-    this._resetToDefaultState = this._resetToDefaultState.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
+    this._onStateChange = this._onStateChange.bind(this);
     this._onSortTypeClick = this._onSortTypeClick.bind(this);
   }
 
@@ -28,7 +28,7 @@ export default class Trip {
     this._renderTrip();
   }
 
-  _onDataPointChange(updatedPoint) {
+  _onDataChange(updatedPoint) {
     this._points = updatePoint(this._points, updatedPoint);
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
   }
@@ -59,12 +59,12 @@ export default class Trip {
     this._renderPointsList();
   }
 
-  _resetToDefaultState() {
-    Object.values(this._pointPresenter).forEach((presenter) => presenter.setDefaultStateView());
+  _onStateChange() {
+    Object.values(this._pointPresenter).forEach((presenter) => presenter.resetView());
   }
 
   _renderPoint(point) {
-    const pointPresenter = new PointPresenter(this._pointListComponent, this._onDataPointChange, this._resetToDefaultState);
+    const pointPresenter = new PointPresenter(this._pointListComponent, this._onDataChange, this._onStateChange);
     pointPresenter.init(point);
     this._pointPresenter[point.id] = pointPresenter;
   }

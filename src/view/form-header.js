@@ -2,11 +2,11 @@ import dayjs from 'dayjs';
 import AbstractView from "./abstract.js";
 import {eventTypes, cities, FormType} from "../const";
 
-const createEventTemplate = (eventType) => {
+const createEventTypeTemplate = (eventType) => {
   return `
     <div class="event__type-item">
-      <input id="event-type-${eventType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${eventType}">
-      <label class="event__type-label  event__type-label--${eventType}" for="event-type-${eventType}-1" style="::before">${eventType}</label>
+      <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${eventType.toLowerCase()}">
+      <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1" style="::before">${eventType}</label>
     </div>
   `;
 };
@@ -18,7 +18,7 @@ const createCityTemplate = (destinationCity) => {
 };
 
 const createFormHeaderTemplate = (event, formType) => {
-  const {type, destionation, cost, startTime, endTime} = event;
+  const {type, destination, cost, startTime, endTime} = event;
 
   const machineTypeTimeStart = startTime !== null
     ? dayjs(startTime).format(`MM/DD/YY hh:mm`)
@@ -39,7 +39,7 @@ const createFormHeaderTemplate = (event, formType) => {
       <div class="event__type-list">
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Event type</legend>
-          ${cities.map(createCityTemplate).join(``)}
+          ${eventTypes.map(createEventTypeTemplate).join(``)}
         </fieldset>
       </div>
     </div>
@@ -48,9 +48,9 @@ const createFormHeaderTemplate = (event, formType) => {
       <label class="event__label  event__type-output" for="event-destination-1">
         ${type}
       </label>
-      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destionation}" list="destination-list-1">
+      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.city}" list="destination-list-1">
       <datalist id="destination-list-1">
-        ${eventTypes.map(createEventTemplate).join(``)}
+      ${cities.map(createCityTemplate).join(``)}
       </datalist>
     </div>
 
@@ -83,6 +83,7 @@ const createFormHeaderTemplate = (event, formType) => {
 export default class FormHeaderView extends AbstractView {
   constructor(event, formType) {
     super();
+
     this._event = event;
     this._formType = formType;
   }
