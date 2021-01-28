@@ -7,8 +7,9 @@ import {render, updatePoint, sortTimeDown, sortPriceDown} from "../utils.js";
 import PointPresenter from "../presenter/point";
 
 export default class Trip {
-  constructor(tripContainer) {
+  constructor(tripContainer, pointsModel) {
     this._tripContainer = tripContainer;
+    this._pointsModel = pointsModel;
     this._pointPresenter = {};
 
     this._sorting = generateSorting();
@@ -28,9 +29,17 @@ export default class Trip {
     this._renderTrip();
   }
 
+  _getPoints() {
+    return this._pointsModel.getPoints();
+  }
+
   _onDataChange(updatedPoint) {
     this._points = updatePoint(this._points, updatedPoint);
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
+  }
+
+  _onStateChange() {
+    Object.values(this._pointPresenter).forEach((presenter) => presenter.resetView());
   }
 
   _sortPoints(sortType) {
@@ -57,10 +66,6 @@ export default class Trip {
 
     this._clearPointsList();
     this._renderPointsList();
-  }
-
-  _onStateChange() {
-    Object.values(this._pointPresenter).forEach((presenter) => presenter.resetView());
   }
 
   _renderPoint(point) {
