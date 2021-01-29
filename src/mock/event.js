@@ -73,11 +73,6 @@ export const generateEvent = () => {
   return {
     id: nanoid(),
     type: generateType(),
-    // destination: generateDestination(),
-    // destinationInfo: {
-    //   description: generateDesription(),
-    //   photos: generatePhotos(),
-    // },
     destination: generateDestination(randomCity),
     startTime,
     endTime,
