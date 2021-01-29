@@ -40,20 +40,6 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const updatePoint = (points, updatedPoint) => {
-  const index = points.findIndex((point) => point.id === updatedPoint.id);
-
-  if (index === -1) {
-    return points;
-  }
-
-  return [
-    ...points.slice(0, index),
-    updatedPoint,
-    ...points.slice(index + 1)
-  ];
-};
-
 export const replace = (newChild, oldChild) => {
   if (oldChild instanceof AbstractView) {
     oldChild = oldChild.getElement();
@@ -77,12 +63,22 @@ export const replace = (newChild, oldChild) => {
 };
 
 export const remove = (component) => {
+  if (component === null) {
+    return;
+  }
+
   if (!(component instanceof AbstractView)) {
     throw new Error(`Can remove only components`);
   }
 
   component.getElement().remove();
   component.removeElement();
+};
+
+export const sortDateDown = (pointA, pointB) => {
+  pointA = pointA.startTime;
+  pointB = pointB.startTime;
+  return pointA - pointB;
 };
 
 export const sortTimeDown = (pointA, pointB) => {
@@ -105,7 +101,7 @@ export class Observer {
   }
 
   removeObserver(observer) {
-    this._observers = this._observers.filter((existedObserever)=> existedObserever !== observer);
+    this._observers = this._observers.filter((existedObserever) => existedObserever !== observer);
   }
 
   _notify(event, payload) {

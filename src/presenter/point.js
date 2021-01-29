@@ -1,6 +1,6 @@
 import PointView from "../view/point.js";
 import FormView from "../view/form.js";
-import {InsertPosition, FormType, State} from "../const";
+import {InsertPosition, FormType, State, UserAction, UpdateType} from "../const";
 import {render, replace, remove} from "../utils.js";
 
 export default class Point {
@@ -92,11 +92,11 @@ export default class Point {
   }
 
   _onFavoriteBtnClick() {
-    this._changeData(Object.assign({}, this._point, {isFavorite: !this._point.isFavorite}));
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, Object.assign({}, this._point, {isFavorite: !this._point.isFavorite}));
   }
 
   _onFormSubmitClick(point) {
-    this._changeData(point);
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, point);
     this._replaceFormEditToPoint();
   }
 
