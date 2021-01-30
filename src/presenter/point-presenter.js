@@ -3,7 +3,7 @@ import FormView from "../view/form.js";
 import {InsertPosition, FormType, State, UserAction, UpdateType} from "../const";
 import {render, replace, remove} from "../utils.js";
 
-export default class Point {
+export default class PointPresenter {
   constructor(tripListContainer, changeData, changeState) {
     this._tripListContainer = tripListContainer;
     this._changeData = changeData;

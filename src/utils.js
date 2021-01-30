@@ -91,6 +91,16 @@ export const sortPriceDown = (priceA, priceB) => {
   return priceB.cost - priceA.cost;
 };
 
+export const isPointPast = (point) => point.startTime < new Date().getTime();
+
+export const isPointFuture = (point) => point.startTime > new Date().getTime();
+
+export const filter = {
+  everything: (points) => points,
+  future: (points) => points.filter(isPointFuture),
+  past: (points) => points.filter(isPointPast),
+};
+
 export class Observer {
   constructor() {
     this._observers = [];

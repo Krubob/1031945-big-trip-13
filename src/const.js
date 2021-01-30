@@ -54,9 +54,9 @@ export const TabsTypes = {
 };
 
 export const FiltersTypes = {
-  EVERYTHING: `Everything`,
-  FUTURE: `Future`,
-  PAST: `Past`
+  EVERYTHING: `everything`,
+  FUTURE: `future`,
+  PAST: `past`
 };
 
 export const InsertPosition = {

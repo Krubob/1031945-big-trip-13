@@ -3,16 +3,16 @@ import {FiltersTypes} from "../const.js";
 export const generateFilters = () => {
   return [
     {
-      name: FiltersTypes.EVERYTHING,
-      isChecked: true,
+      name: `Everything`,
+      type: FiltersTypes.EVERYTHING,
     },
     {
-      name: FiltersTypes.FUTURE,
-      isChecked: false,
+      name: `Future`,
+      type: FiltersTypes.FUTURE,
     },
     {
-      name: FiltersTypes.PAST,
-      isChecked: false,
+      name: `Past`,
+      type: FiltersTypes.PAST,
     },
   ];
 };

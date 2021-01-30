@@ -2,13 +2,14 @@ import SortingView from "../view/sorting.js";
 import PointListView from "../view/point-list.js";
 import PointEmptyView from "../view/point-empty";
 import {InsertPosition, SortType, UpdateType, UserAction} from "../const";
-import {render, remove, sortTimeDown, sortPriceDown, sortDateDown} from "../utils.js";
-import PointPresenter from "../presenter/point";
+import {render, remove, filter, sortTimeDown, sortPriceDown, sortDateDown} from "../utils.js";
+import PointPresenter from "./point-presenter";
 
-export default class Trip {
-  constructor(tripContainer, pointsModel) {
+export default class TripPresenter {
+  constructor(tripContainer, pointsModel, filterModel) {
     this._tripContainer = tripContainer;
     this._pointsModel = pointsModel;
+    this._filterModel = filterModel;
     this._pointPresenter = {};
     this._currentSortType = SortType.DEFAULT;
 
@@ -23,6 +24,7 @@ export default class Trip {
     this._onSortTypeClick = this._onSortTypeClick.bind(this);
 
     this._pointsModel.addObserver(this._onModelEvent);
+    this._filterModel.addObserver(this._onModelEvent);
   }
 
   init() {
@@ -30,16 +32,20 @@ export default class Trip {
   }
 
   _getPoints() {
+    const filterType = this._filterModel.getFilter();
+    const points = this._pointsModel.getPoints();
+    const filtredTasks = filter[filterType](points);
+
     switch (this._currentSortType) {
       case SortType.DEFAULT:
-        return this._pointsModel.getPoints().slice().sort(sortDateDown);
+        return filtredTasks.sort(sortDateDown);
       case SortType.TIME_DOWN:
-        return this._pointsModel.getPoints().slice().sort(sortTimeDown);
+        return filtredTasks.sort(sortTimeDown);
       case SortType.PRICE_DOWN:
-        return this._pointsModel.getPoints().slice().sort(sortPriceDown);
+        return filtredTasks.sort(sortPriceDown);
     }
 
-    return this._pointsModel.getPoints();
+    return filtredTasks;
   }
 
   _onDataChange(updatedPoint) {
@@ -67,7 +73,7 @@ export default class Trip {
     switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        this._taskPresenter[data.id].init(data);
+        this._pointPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
         // - обновить весь список (например, при очистке)
@@ -76,8 +82,8 @@ export default class Trip {
         break;
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
-        this._clearBoard(true);
-        this._renderBoard();
+        this._clearTrip(true);
+        this._renderTrip();
         break;
     }
   }
