@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import {InsertPosition, AdditionalOffers, FormType} from "../const";
+import {InsertPosition, AdditionalOffers, FormType, cities} from "../const";
 import {generateDestination} from "../mock/event.js";
-import {render, createElement} from "../utils.js";
+import {render, createElement, isValidDestination} from "../utils.js";
 import SmartView from "./smart.js";
 import FormHeaderView from "./form-header.js";
 import FormPhotosView from "./form-photos.js";
@@ -87,7 +87,6 @@ export default class FormView extends SmartView {
     .querySelector(`.event__input--destination`)
     .addEventListener(`change`, this._cityToggleHandler);
 
-
     this.getElement()
     .querySelector(`.event__input--price`)
     .addEventListener(`change`, this._priceChangeHandler);
@@ -150,16 +149,21 @@ export default class FormView extends SmartView {
   _cityToggleHandler(evt) {
     evt.preventDefault();
 
-    this.updateData({
-      destination: generateDestination(evt.target.value),
-    });
+    if (!isValidDestination(cities, evt.target.value)) {
+      evt.target.setCustomValidity(`Выбранный пункт назначения должен быть из списка: ${cities.join(`, `)}`);
+    } else {
+      this.updateData({
+        destination: generateDestination(evt.target.value),
+      });
+      evt.target.setCustomValidity(``);
+    }
   }
 
   _priceChangeHandler(evt) {
     const target = evt.target.value;
 
     this.updateData({
-      cost: target.replace(/[^\d]/g, ``) || 0
+      cost: parseInt(target, 10) || 0
     });
   }
 

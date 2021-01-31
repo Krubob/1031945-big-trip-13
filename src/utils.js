@@ -1,4 +1,4 @@
-import {InsertPosition} from "./const";
+import {InsertPosition, cities} from "./const";
 import AbstractView from "./view/abstract.js";
 
 export const getRandomInteger = (a = 0, b = 1) => {
@@ -101,6 +101,10 @@ export const filter = {
   past: (points) => points.filter(isPointPast),
 };
 
+export const isValidDestination = (destinations, inputUserDestination) => {
+  return cities.includes(inputUserDestination);
+};
+
 export class Observer {
   constructor() {
     this._observers = [];
@@ -118,3 +122,4 @@ export class Observer {
     this._observers.forEach((observer) => observer(event, payload));
   }
 }
+
