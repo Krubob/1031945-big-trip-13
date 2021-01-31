@@ -53,7 +53,7 @@ export const TabsTypes = {
   STATS: `Stats`,
 };
 
-export const FiltersTypes = {
+export const FilterType = {
   EVERYTHING: `everything`,
   FUTURE: `future`,
   PAST: `past`

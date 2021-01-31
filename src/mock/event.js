@@ -43,7 +43,7 @@ export const generateOptions = () => {
   return Array.from({length: getRandomInteger(0, 5)}, generateOption);
 };
 
-const generateDate = () => {
+export const generateDate = () => {
   const daysGap = getRandomInteger(-MAX_DAYS_GAP, MAX_DAYS_GAP);
   const hoursGap = getRandomInteger(-MAX_HOURS_GAP, MAX_HOURS_GAP);
   const minutesGap = getRandomInteger(-MAX_HOURS_GAP, MAX_HOURS_GAP);

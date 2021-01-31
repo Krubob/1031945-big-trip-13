@@ -30,3 +30,8 @@ const filterPresenter = new FilterPresenter(filtersTitleElement, filterModel);
 
 tripPresenter.init();
 filterPresenter.init();
+
+document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+  evt.preventDefault();
+  tripPresenter.createPoint();
+});

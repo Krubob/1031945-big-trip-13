@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {InsertPosition, AdditionalOffers} from "../const";
+import {InsertPosition, AdditionalOffers, FormType} from "../const";
 import {generateDestination} from "../mock/event.js";
 import {render, createElement} from "../utils.js";
 import SmartView from "./smart.js";
@@ -27,7 +27,7 @@ const createFormEditTemplate = (event) => {
 };
 
 export default class FormView extends SmartView {
-  constructor(event = {}, formType) {
+  constructor(event, formType = FormType.FORM_EDIT) {
     super();
 
     this._eventHeaderElement = null;
@@ -37,6 +37,8 @@ export default class FormView extends SmartView {
     this._datepickers = {};
 
     this._formEditSubmitHandler = this._formEditSubmitHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._rollupCloseClickHandler = this._rollupCloseClickHandler.bind(this);
     this._eventTypeToggleHandler = this._eventTypeToggleHandler.bind(this);
     this._cityToggleHandler = this._cityToggleHandler.bind(this);
@@ -59,7 +61,7 @@ export default class FormView extends SmartView {
     this._setInnerHandlers();
     this._setDatepickers();
     this.setRollupCloseClickHandler(this._callback.clickRollupClose);
-    this.setFormEditSubmitHandler(this._callback.formEditsubmit);
+    this.setFormEditSubmitHandler(this._callback.formEditSubmit);
   }
 
   _setDatepickers() {
@@ -151,7 +153,7 @@ export default class FormView extends SmartView {
   _formEditSubmitHandler(evt) {
     evt.preventDefault();
 
-    this._callback.formEditsubmit(this._data);
+    this._callback.formEditSubmit(this._data);
   }
 
   _rollupCloseClickHandler(evt) {
@@ -160,14 +162,36 @@ export default class FormView extends SmartView {
     this._callback.clickRollupClose();
   }
 
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+
+    this._callback.formSubmit(this._data);
+  }
+
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+
+    this._callback.deleteClick(this._data);
+  }
+
   setFormEditSubmitHandler(callback) {
-    this._callback.formEditsubmit = callback;
+    this._callback.formEditSubmit = callback;
     this.getElement().querySelector(`.event--edit`).addEventListener(`submit`, this._formEditSubmitHandler);
   }
 
   setRollupCloseClickHandler(callback) {
     this._callback.clickRollupClose = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupCloseClickHandler);
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector(`button[type=reset]`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
   getElement() {

@@ -1,9 +1,10 @@
 import SortingView from "../view/sorting.js";
 import PointListView from "../view/point-list.js";
 import PointEmptyView from "../view/point-empty";
-import {InsertPosition, SortType, UpdateType, UserAction} from "../const";
+import {InsertPosition, FilterType, SortType, UpdateType, UserAction} from "../const";
 import {render, remove, filter, sortTimeDown, sortPriceDown, sortDateDown} from "../utils.js";
 import PointPresenter from "./point-presenter";
+import PointNewPresenter from "./point-new-presenter.js";
 
 export default class TripPresenter {
   constructor(tripContainer, pointsModel, filterModel) {
@@ -20,15 +21,23 @@ export default class TripPresenter {
     this._onViewAction = this._onViewAction.bind(this);
     this._onModelEvent = this._onModelEvent.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
-    this._onStateChange = this._onStateChange.bind(this);
+    this._onModeChange = this._onModeChange.bind(this);
     this._onSortTypeClick = this._onSortTypeClick.bind(this);
 
     this._pointsModel.addObserver(this._onModelEvent);
     this._filterModel.addObserver(this._onModelEvent);
+
+    this._pointNewPresenter = new PointNewPresenter(this._pointListComponent, this._onViewAction);
   }
 
   init() {
     this._renderTrip();
+  }
+
+  createPoint() {
+    this._currentSortType = SortType.DEFAULT;
+    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this._pointNewPresenter.init();
   }
 
   _getPoints() {
@@ -88,7 +97,8 @@ export default class TripPresenter {
     }
   }
 
-  _onStateChange() {
+  _onModeChange() {
+    this._pointNewPresenter.destroy();
     Object.values(this._pointPresenter).forEach((presenter) => presenter.resetView());
   }
 
@@ -104,7 +114,7 @@ export default class TripPresenter {
   }
 
   _renderPoint(point) {
-    const pointPresenter = new PointPresenter(this._pointListComponent, this._onViewAction, this._onStateChange);
+    const pointPresenter = new PointPresenter(this._pointListComponent, this._onViewAction, this._onModeChange);
     pointPresenter.init(point);
     this._pointPresenter[point.id] = pointPresenter;
   }
@@ -130,6 +140,7 @@ export default class TripPresenter {
   }
 
   _clearTrip(resetSortType = false) {
+    this._pointNewPresenter.destroy();
     Object.values(this._pointPresenter).forEach((presenter) => presenter.destroy());
     this._pointPresenter = {};
 

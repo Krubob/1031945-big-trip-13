@@ -4,10 +4,10 @@ import {InsertPosition, FormType, State, UserAction, UpdateType} from "../const"
 import {render, replace, remove} from "../utils.js";
 
 export default class PointPresenter {
-  constructor(tripListContainer, changeData, changeState) {
+  constructor(tripListContainer, changeData, changeMode) {
     this._tripListContainer = tripListContainer;
     this._changeData = changeData;
-    this._changeState = changeState;
+    this._changeMode = changeMode;
 
     this._pointComponent = null;
     this._pointEditComponent = null;
@@ -61,7 +61,7 @@ export default class PointPresenter {
   _replacePointToFormEdit() {
     replace(this._pointEditComponent, this._pointComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-    this._changeState();
+    this._changeMode();
     this._state = State.EDITING;
   }
 
