@@ -37,6 +37,7 @@ export default class FormView extends SmartView {
     this._datepickers = {};
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._priceChangeHandler = this._priceChangeHandler.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._rollupCloseClickHandler = this._rollupCloseClickHandler.bind(this);
     this._eventTypeToggleHandler = this._eventTypeToggleHandler.bind(this);
@@ -85,6 +86,11 @@ export default class FormView extends SmartView {
     this.getElement()
     .querySelector(`.event__input--destination`)
     .addEventListener(`change`, this._cityToggleHandler);
+
+
+    this.getElement()
+    .querySelector(`.event__input--price`)
+    .addEventListener(`change`, this._priceChangeHandler);
   }
 
   _setDatepickerStartTime(periodTime) {
@@ -146,6 +152,14 @@ export default class FormView extends SmartView {
 
     this.updateData({
       destination: generateDestination(evt.target.value),
+    });
+  }
+
+  _priceChangeHandler(evt) {
+    const target = evt.target.value;
+
+    this.updateData({
+      cost: target.replace(/[^\d]/g, ``) || 0
     });
   }
 
