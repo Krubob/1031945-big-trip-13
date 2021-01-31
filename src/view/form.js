@@ -8,7 +8,7 @@ import FormPhotosView from "./form-photos.js";
 import AvailableOffersView from "./available-offers.js";
 import FormDescriptionView from "./form-description.js";
 import flatpickr from "flatpickr";
-import "../../node_modules/flatpickr/dist/flatpickr.min.css";
+import "flatpickr/dist/flatpickr.min.css";
 
 const createFormEditTemplate = (event) => {
   return `<li class="trip-events__item">
@@ -65,8 +65,8 @@ export default class FormView extends SmartView {
   }
 
   _setDatepickers() {
-    this._setDatepickerStartTime(`start-time`);
-    this._setDatepickerEndTime(`end-time`);
+    this._setDatepickerStartTime(`start-time`, this._startTimeChangeHandler);
+    this._setDatepickerEndTime(`end-time`, this._endTimeChangeHandler);
   }
 
   _destroyDatepicker(periodTime) {
@@ -92,32 +92,26 @@ export default class FormView extends SmartView {
     .addEventListener(`change`, this._priceChangeHandler);
   }
 
-  _setDatepickerStartTime(periodTime) {
-    this._destroyDatepicker(periodTime);
-
+  _configurateDatepicker(periodTime, onChange) {
     this._datepickers[periodTime] = flatpickr(
         this.getElement().querySelector(`.event__input--time[name='event-${periodTime}']`),
         {
           dateFormat: `d/m/y H:i`,
           enableTime: true,
           defaultDate: this._data[periodTime],
-          onChange: this._startTimeChangeHandler,
+          onChange,
         }
     );
   }
 
-  _setDatepickerEndTime(periodTime) {
+  _setDatepickerStartTime(periodTime, onChange) {
     this._destroyDatepicker(periodTime);
+    this._configurateDatepicker(periodTime, onChange);
+  }
 
-    this._datepickers[periodTime] = flatpickr(
-        this.getElement().querySelector(`.event__input--time[name='event-${periodTime}']`),
-        {
-          dateFormat: `d/m/y H:i`,
-          enableTime: true,
-          defaultDate: this._data[periodTime],
-          onChange: this._endTimeChangeHandler,
-        }
-    );
+  _setDatepickerEndTime(periodTime, onChange) {
+    this._destroyDatepicker(periodTime);
+    this._configurateDatepicker(periodTime, onChange);
   }
 
   _startTimeChangeHandler([userDate]) {
