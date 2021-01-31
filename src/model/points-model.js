@@ -46,9 +46,9 @@ export default class PointsModel extends Observer {
       throw new Error(`Can't delete unexisting task`);
     }
 
-    this._tasks = [
-      ...this._tasks.slice(0, index),
-      ...this._tasks.slice(index + 1)
+    this._points = [
+      ...this._points.slice(0, index),
+      ...this._points.slice(index + 1)
     ];
 
     this._notify(updateType);

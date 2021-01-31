@@ -26,8 +26,8 @@ export default class PointNewPresenter {
 
     this._pointEditComponent = null;
 
-    this._onFormSubmit = this._onFormSubmit.bind(this);
-    this._onDeleteClick = this._onDeleteClick.bind(this);
+    this._onFormSubmitClick = this._onFormSubmitClick.bind(this);
+    this._onDeleteBtnClick = this._onDeleteBtnClick.bind(this);
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
@@ -38,8 +38,8 @@ export default class PointNewPresenter {
 
     this._pointEditComponent = new FormView(BLANK_POINT, FormType.FORM_NEW);
 
-    this._pointEditComponent.setFormSubmitHandler(this._onFormSubmit);
-    this._pointEditComponent.setDeleteClickHandler(this._onDeleteClick);
+    this._pointEditComponent.setFormSubmitHandler(this._onFormSubmitClick);
+    this._pointEditComponent.setDeleteClickHandler(this._onDeleteBtnClick);
 
     render(this._tripListContainer, this._pointEditComponent, InsertPosition.AFTERBEGIN);
 
@@ -57,7 +57,7 @@ export default class PointNewPresenter {
     document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
-  _onFormSubmit(point) {
+  _onFormSubmitClick(point) {
     this._changeData(
         UserAction.ADD_POINT,
         UpdateType.MINOR,
@@ -66,7 +66,7 @@ export default class PointNewPresenter {
     this.destroy();
   }
 
-  _onDeleteClick() {
+  _onDeleteBtnClick() {
     this.destroy();
   }
 

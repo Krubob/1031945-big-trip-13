@@ -14,6 +14,7 @@ export default class PointPresenter {
     this._state = State.DEFAULT;
 
     this._onFormSubmitClick = this._onFormSubmitClick.bind(this);
+    this._onDeleteBtnClick = this._onDeleteBtnClick.bind(this);
     this._onRollupBtnOpenClick = this._onRollupBtnOpenClick.bind(this);
     this._onRollupBtnCloseClick = this._onRollupBtnCloseClick.bind(this);
     this._onFavoriteBtnClick = this._onFavoriteBtnClick.bind(this);
@@ -32,7 +33,8 @@ export default class PointPresenter {
     this._pointComponent.setRollupOpenClickHandler(this._onRollupBtnOpenClick);
     this._pointComponent.setFavoriteBtnClickHandler(this._onFavoriteBtnClick);
     this._pointEditComponent.setRollupCloseClickHandler(this._onRollupBtnCloseClick);
-    this._pointEditComponent.setFormEditSubmitHandler(this._onFormSubmitClick);
+    this._pointEditComponent.setFormSubmitHandler(this._onFormSubmitClick);
+    this._pointEditComponent.setDeleteClickHandler(this._onDeleteBtnClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this._tripListContainer, this._pointComponent.getElement(), InsertPosition.BEFOREEND);
@@ -98,6 +100,14 @@ export default class PointPresenter {
   _onFormSubmitClick(point) {
     this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, point);
     this._replaceFormEditToPoint();
+  }
+
+  _onDeleteBtnClick(point) {
+    this._changeData(
+        UserAction.DELETE_POINT,
+        UpdateType.MINOR,
+        point
+    );
   }
 
   destroy() {

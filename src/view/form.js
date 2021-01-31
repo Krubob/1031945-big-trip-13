@@ -36,7 +36,6 @@ export default class FormView extends SmartView {
     this._formType = formType;
     this._datepickers = {};
 
-    this._formEditSubmitHandler = this._formEditSubmitHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._rollupCloseClickHandler = this._rollupCloseClickHandler.bind(this);
@@ -60,8 +59,8 @@ export default class FormView extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this._setDatepickers();
-    this.setRollupCloseClickHandler(this._callback.clickRollupClose);
-    this.setFormEditSubmitHandler(this._callback.formEditSubmit);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   _setDatepickers() {
@@ -150,12 +149,6 @@ export default class FormView extends SmartView {
     });
   }
 
-  _formEditSubmitHandler(evt) {
-    evt.preventDefault();
-
-    this._callback.formEditSubmit(this._data);
-  }
-
   _rollupCloseClickHandler(evt) {
     evt.preventDefault();
 
@@ -174,19 +167,14 @@ export default class FormView extends SmartView {
     this._callback.deleteClick(this._data);
   }
 
-  setFormEditSubmitHandler(callback) {
-    this._callback.formEditSubmit = callback;
-    this.getElement().querySelector(`.event--edit`).addEventListener(`submit`, this._formEditSubmitHandler);
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().addEventListener(`submit`, this._formSubmitHandler);
   }
 
   setRollupCloseClickHandler(callback) {
     this._callback.clickRollupClose = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupCloseClickHandler);
-  }
-
-  setFormSubmitHandler(callback) {
-    this._callback.formSubmit = callback;
-    this.getElement().addEventListener(`submit`, this._formSubmitHandler);
   }
 
   setDeleteClickHandler(callback) {
