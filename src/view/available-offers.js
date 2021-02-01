@@ -1,9 +1,9 @@
 import AbstractView from "./abstract.js";
 
-const createAvailableOfferTemplate = (item) => {
+const createAvailableOfferTemplate = (item, id) => {
   return `<div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option.toLowerCase()}-1" type="checkbox" name="event-offer-${item.option.toLowerCase()}" ${item.isChecked ? `checked` : ``}>
-      <label class="event__offer-label" for="event-offer-${item.option.toLowerCase()}-1">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option.toLowerCase()}-${id}" type="checkbox" name="event-offer-${item.option.toLowerCase()}" ${item.isChecked ? `checked` : ``}>
+      <label class="event__offer-label" for="event-offer-${item.option.toLowerCase()}-${id}">
         <span class="event__offer-title">${item.option}</span>
         &plus;&euro;&nbsp;
       <span class="event__offer-price">${item.cost}</span>
@@ -12,9 +12,9 @@ const createAvailableOfferTemplate = (item) => {
 };
 
 const createAvailableOffersTemplate = (event) => {
-  const {options} = event;
+  const {options, id} = event;
   return `<div class="event__available-offers">
-    ${options.map(createAvailableOfferTemplate).join(``)}
+    ${options.map((option) => createAvailableOfferTemplate(option, id)).join(``)}
   </div>`;
 };
 

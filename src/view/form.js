@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import {InsertPosition, AdditionalOffers} from "../const";
+import {InsertPosition, AdditionalOffers, FormType, cities} from "../const";
 import {generateDestination} from "../mock/event.js";
-import {render, createElement} from "../utils.js";
+import {render, createElement, isValidDestination} from "../utils.js";
 import SmartView from "./smart.js";
 import FormHeaderView from "./form-header.js";
 import FormPhotosView from "./form-photos.js";
@@ -27,7 +27,7 @@ const createFormEditTemplate = (event) => {
 };
 
 export default class FormView extends SmartView {
-  constructor(event = {}, formType) {
+  constructor(event, formType = FormType.FORM_EDIT) {
     super();
 
     this._eventHeaderElement = null;
@@ -36,7 +36,9 @@ export default class FormView extends SmartView {
     this._formType = formType;
     this._datepickers = {};
 
-    this._formEditSubmitHandler = this._formEditSubmitHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._priceChangeHandler = this._priceChangeHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._rollupCloseClickHandler = this._rollupCloseClickHandler.bind(this);
     this._eventTypeToggleHandler = this._eventTypeToggleHandler.bind(this);
     this._cityToggleHandler = this._cityToggleHandler.bind(this);
@@ -58,8 +60,8 @@ export default class FormView extends SmartView {
   restoreHandlers() {
     this._setInnerHandlers();
     this._setDatepickers();
-    this.setRollupCloseClickHandler(this._callback.clickRollupClose);
-    this.setFormEditSubmitHandler(this._callback.formEditsubmit);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   _setDatepickers() {
@@ -84,6 +86,10 @@ export default class FormView extends SmartView {
     this.getElement()
     .querySelector(`.event__input--destination`)
     .addEventListener(`change`, this._cityToggleHandler);
+
+    this.getElement()
+    .querySelector(`.event__input--price`)
+    .addEventListener(`change`, this._priceChangeHandler);
   }
 
   _configurateDatepicker(periodTime, onChange) {
@@ -137,15 +143,22 @@ export default class FormView extends SmartView {
   _cityToggleHandler(evt) {
     evt.preventDefault();
 
-    this.updateData({
-      destination: generateDestination(evt.target.value),
-    });
+    if (!isValidDestination(cities, evt.target.value)) {
+      evt.target.setCustomValidity(`Выбранный пункт назначения должен быть из списка: ${cities.join(`, `)}`);
+    } else {
+      this.updateData({
+        destination: generateDestination(evt.target.value),
+      });
+      evt.target.setCustomValidity(``);
+    }
   }
 
-  _formEditSubmitHandler(evt) {
-    evt.preventDefault();
+  _priceChangeHandler(evt) {
+    const target = evt.target.value;
 
-    this._callback.formEditsubmit(this._data);
+    this.updateData({
+      cost: parseInt(target, 10) || 0
+    });
   }
 
   _rollupCloseClickHandler(evt) {
@@ -154,14 +167,31 @@ export default class FormView extends SmartView {
     this._callback.clickRollupClose();
   }
 
-  setFormEditSubmitHandler(callback) {
-    this._callback.formEditsubmit = callback;
-    this.getElement().querySelector(`.event--edit`).addEventListener(`submit`, this._formEditSubmitHandler);
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+
+    this._callback.formSubmit(this._data);
+  }
+
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+
+    this._callback.deleteClick(this._data);
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().addEventListener(`submit`, this._formSubmitHandler);
   }
 
   setRollupCloseClickHandler(callback) {
     this._callback.clickRollupClose = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupCloseClickHandler);
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector(`button[type=reset]`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
   getElement() {

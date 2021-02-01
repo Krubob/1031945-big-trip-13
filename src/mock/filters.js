@@ -1,18 +1,18 @@
-import {FiltersTypes} from "../const.js";
+import {FilterType} from "../const.js";
 
 export const generateFilters = () => {
   return [
     {
-      name: FiltersTypes.EVERYTHING,
-      isChecked: true,
+      name: `Everything`,
+      type: FilterType.EVERYTHING,
     },
     {
-      name: FiltersTypes.FUTURE,
-      isChecked: false,
+      name: `Future`,
+      type: FilterType.FUTURE,
     },
     {
-      name: FiltersTypes.PAST,
-      isChecked: false,
+      name: `Past`,
+      type: FilterType.PAST,
     },
   ];
 };

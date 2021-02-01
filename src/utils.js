@@ -1,4 +1,4 @@
-import {InsertPosition} from "./const";
+import {InsertPosition, cities} from "./const";
 import AbstractView from "./view/abstract.js";
 
 export const getRandomInteger = (a = 0, b = 1) => {
@@ -40,20 +40,6 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const updatePoint = (points, updatedPoint) => {
-  const index = points.findIndex((point) => point.id === updatedPoint.id);
-
-  if (index === -1) {
-    return points;
-  }
-
-  return [
-    ...points.slice(0, index),
-    updatedPoint,
-    ...points.slice(index + 1)
-  ];
-};
-
 export const replace = (newChild, oldChild) => {
   if (oldChild instanceof AbstractView) {
     oldChild = oldChild.getElement();
@@ -77,12 +63,22 @@ export const replace = (newChild, oldChild) => {
 };
 
 export const remove = (component) => {
+  if (component === null) {
+    return;
+  }
+
   if (!(component instanceof AbstractView)) {
     throw new Error(`Can remove only components`);
   }
 
   component.getElement().remove();
   component.removeElement();
+};
+
+export const sortDateDown = (pointA, pointB) => {
+  pointA = pointA.startTime;
+  pointB = pointB.startTime;
+  return pointA - pointB;
 };
 
 export const sortTimeDown = (pointA, pointB) => {
@@ -94,3 +90,36 @@ export const sortTimeDown = (pointA, pointB) => {
 export const sortPriceDown = (priceA, priceB) => {
   return priceB.cost - priceA.cost;
 };
+
+export const isPointPast = (point) => point.startTime < new Date().getTime();
+
+export const isPointFuture = (point) => point.startTime > new Date().getTime();
+
+export const filter = {
+  everything: (points) => points,
+  future: (points) => points.filter(isPointFuture),
+  past: (points) => points.filter(isPointPast),
+};
+
+export const isValidDestination = (destinations, inputUserDestination) => {
+  return cities.includes(inputUserDestination);
+};
+
+export class Observer {
+  constructor() {
+    this._observers = [];
+  }
+
+  addObserver(observer) {
+    this._observers.push(observer);
+  }
+
+  removeObserver(observer) {
+    this._observers = this._observers.filter((existedObserever) => existedObserever !== observer);
+  }
+
+  _notify(event, payload) {
+    this._observers.forEach((observer) => observer(event, payload));
+  }
+}
+

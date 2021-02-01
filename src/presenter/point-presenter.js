@@ -1,19 +1,20 @@
 import PointView from "../view/point.js";
 import FormView from "../view/form.js";
-import {InsertPosition, FormType, State} from "../const";
+import {InsertPosition, FormType, State, UserAction, UpdateType} from "../const";
 import {render, replace, remove} from "../utils.js";
 
-export default class Point {
-  constructor(tripListContainer, changeData, changeState) {
+export default class PointPresenter {
+  constructor(tripListContainer, changeData, changeMode) {
     this._tripListContainer = tripListContainer;
     this._changeData = changeData;
-    this._changeState = changeState;
+    this._changeMode = changeMode;
 
     this._pointComponent = null;
     this._pointEditComponent = null;
     this._state = State.DEFAULT;
 
     this._onFormSubmitClick = this._onFormSubmitClick.bind(this);
+    this._onDeleteBtnClick = this._onDeleteBtnClick.bind(this);
     this._onRollupBtnOpenClick = this._onRollupBtnOpenClick.bind(this);
     this._onRollupBtnCloseClick = this._onRollupBtnCloseClick.bind(this);
     this._onFavoriteBtnClick = this._onFavoriteBtnClick.bind(this);
@@ -32,7 +33,8 @@ export default class Point {
     this._pointComponent.setRollupOpenClickHandler(this._onRollupBtnOpenClick);
     this._pointComponent.setFavoriteBtnClickHandler(this._onFavoriteBtnClick);
     this._pointEditComponent.setRollupCloseClickHandler(this._onRollupBtnCloseClick);
-    this._pointEditComponent.setFormEditSubmitHandler(this._onFormSubmitClick);
+    this._pointEditComponent.setFormSubmitHandler(this._onFormSubmitClick);
+    this._pointEditComponent.setDeleteClickHandler(this._onDeleteBtnClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this._tripListContainer, this._pointComponent.getElement(), InsertPosition.BEFOREEND);
@@ -61,7 +63,7 @@ export default class Point {
   _replacePointToFormEdit() {
     replace(this._pointEditComponent, this._pointComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
-    this._changeState();
+    this._changeMode();
     this._state = State.EDITING;
   }
 
@@ -92,12 +94,20 @@ export default class Point {
   }
 
   _onFavoriteBtnClick() {
-    this._changeData(Object.assign({}, this._point, {isFavorite: !this._point.isFavorite}));
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, Object.assign({}, this._point, {isFavorite: !this._point.isFavorite}));
   }
 
   _onFormSubmitClick(point) {
-    this._changeData(point);
+    this._changeData(UserAction.UPDATE_POINT, UpdateType.MINOR, point);
     this._replaceFormEditToPoint();
+  }
+
+  _onDeleteBtnClick(point) {
+    this._changeData(
+        UserAction.DELETE_POINT,
+        UpdateType.MINOR,
+        point
+    );
   }
 
   destroy() {
