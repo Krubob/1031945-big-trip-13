@@ -5,9 +5,11 @@ import {InsertPosition, FilterType, SortType, UpdateType, UserAction} from "../c
 import {render, remove, filter, sortTimeDown, sortPriceDown, sortDateDown} from "../utils.js";
 import PointPresenter from "./point-presenter";
 import PointNewPresenter from "./point-new-presenter.js";
+import AbstractView from "../view/abstract.js";
 
-export default class TripPresenter {
+export default class TripPresenter extends AbstractView {
   constructor(tripContainer, pointsModel, filterModel) {
+    super();
     this._tripContainer = tripContainer;
     this._pointsModel = pointsModel;
     this._filterModel = filterModel;
@@ -24,14 +26,26 @@ export default class TripPresenter {
     this._onModeChange = this._onModeChange.bind(this);
     this._onSortTypeClick = this._onSortTypeClick.bind(this);
 
-    this._pointsModel.addObserver(this._onModelEvent);
-    this._filterModel.addObserver(this._onModelEvent);
-
     this._pointNewPresenter = new PointNewPresenter(this._pointListComponent, this._onViewAction);
   }
 
   init() {
+    this.show(this._tripContainer, `trip-events--hidden`);
     this._renderTrip();
+
+    this._pointsModel.addObserver(this._onModelEvent);
+    this._filterModel.addObserver(this._onModelEvent);
+  }
+
+  destroy() {
+    this.hide(this._tripContainer, `trip-events--hidden`);
+    this._clearTrip({resetSortType: true});
+
+    remove(this._pointListComponent);
+    remove(this._sortingComponent);
+
+    this._pointsModel.removeObserver(this._onModelEvent);
+    this._filterModel.removeObserver(this._onModelEvent);
   }
 
   createPoint() {
@@ -139,7 +153,7 @@ export default class TripPresenter {
     render(this._tripContainer, this._sortingComponent, InsertPosition.BEFOREEND);
   }
 
-  _clearTrip(resetSortType = false) {
+  _clearTrip({resetSortType = false} = {}) {
     this._pointNewPresenter.destroy();
     Object.values(this._pointPresenter).forEach((presenter) => presenter.destroy());
     this._pointPresenter = {};
