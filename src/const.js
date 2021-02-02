@@ -8,6 +8,7 @@ export const MAX_HOURS_GAP = 24;
 export const ONE_HOUR_IN_MINUTES = 60;
 export const ONE_DAY_IN_MINUTES = 1440;
 export const TEN_MINUTES = 10;
+export const BAR_HEIGHT = 55;
 
 export const cities = [
   `Moscow`,
