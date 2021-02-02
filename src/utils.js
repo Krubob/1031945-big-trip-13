@@ -91,9 +91,9 @@ export const sortPriceDown = (priceA, priceB) => {
   return priceB.cost - priceA.cost;
 };
 
-export const isPointPast = (point) => point.startTime < new Date().getTime();
+const isPointPast = (point) => point.startTime < new Date().getTime();
 
-export const isPointFuture = (point) => point.startTime > new Date().getTime();
+const isPointFuture = (point) => point.startTime > new Date().getTime();
 
 export const filter = {
   everything: (points) => points,
@@ -104,24 +104,6 @@ export const filter = {
 export const isValidDestination = (destinations, inputUserDestination) => {
   return cities.includes(inputUserDestination);
 };
-
-export class Observer {
-  constructor() {
-    this._observers = [];
-  }
-
-  addObserver(observer) {
-    this._observers.push(observer);
-  }
-
-  removeObserver(observer) {
-    this._observers = this._observers.filter((existedObserever) => existedObserever !== observer);
-  }
-
-  _notify(event, payload) {
-    this._observers.forEach((observer) => observer(event, payload));
-  }
-}
 
 export const getUniqPointsTypes = (points) => {
   const allTypes = points.map((point) => point.type);
