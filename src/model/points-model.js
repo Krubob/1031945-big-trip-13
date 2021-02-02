@@ -1,4 +1,4 @@
-import {Observer} from "../utils.js";
+import Observer from "../view/observer.js";
 
 export default class PointsModel extends Observer {
   constructor() {

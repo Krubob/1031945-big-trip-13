@@ -91,9 +91,9 @@ export const sortPriceDown = (priceA, priceB) => {
   return priceB.cost - priceA.cost;
 };
 
-export const isPointPast = (point) => point.startTime < new Date().getTime();
+const isPointPast = (point) => point.startTime < new Date().getTime();
 
-export const isPointFuture = (point) => point.startTime > new Date().getTime();
+const isPointFuture = (point) => point.startTime > new Date().getTime();
 
 export const filter = {
   everything: (points) => points,
@@ -105,21 +105,44 @@ export const isValidDestination = (destinations, inputUserDestination) => {
   return cities.includes(inputUserDestination);
 };
 
-export class Observer {
-  constructor() {
-    this._observers = [];
-  }
+export const getUniqPointsTypes = (points) => {
+  const allTypes = points.map((point) => point.type);
+  const onlyUniqTypes = (items) => [...new Set(items)].sort();
 
-  addObserver(observer) {
-    this._observers.push(observer);
-  }
+  return onlyUniqTypes(allTypes);
+};
 
-  removeObserver(observer) {
-    this._observers = this._observers.filter((existedObserever) => existedObserever !== observer);
-  }
+export const countTotalCostByType = (points, type) => {
+  return points
+      .filter((point) => point.type === type)
+      .reduce((accumulator, currentValue) => accumulator + currentValue.cost, 0);
+};
 
-  _notify(event, payload) {
-    this._observers.forEach((observer) => observer(event, payload));
-  }
-}
+export const countTotalTypesByType = (points, type) => {
+  return points.filter((point) => point.type === type).length;
+};
 
+const countPointTimeSpend = (point) => {
+  return point.endTime - point.startTime;
+};
+
+export const countTotalTimeSpendByType = (points, type) => {
+  return points
+    .filter((point) => point.type === type)
+    .reduce((accumulator, currentValue) => accumulator + countPointTimeSpend(currentValue), 0);
+};
+
+export const editFormatTimeSpend = (timeSpend) => {
+  const days = Math.floor(timeSpend / (24 * 60 * 60 * 1000));
+  const hours = Math.floor(timeSpend / (60 * 60 * 1000)) % 24;
+  const minutes = Math.floor(timeSpend / (60 * 1000)) % 60;
+
+  if (days !== 0) {
+    return `${days}D ${hours}H ${minutes}M`;
+  } else if (hours !== 0) {
+    return `${hours}H ${minutes}M`;
+  } else if (minutes !== 0) {
+    return `${minutes}M`;
+  }
+  return ``;
+};
