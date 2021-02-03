@@ -5,17 +5,16 @@ import TripPresenter from "./presenter/trip-presenter";
 import FilterPresenter from "./presenter/filter-presenter";
 import PointsModel from "./model/points-model.js";
 import FilterModel from "./model/filter-model.js";
-import {generateEvent} from "./mock/event.js";
 import {render, remove} from "./utils.js";
 import {InsertPosition, TabsTypes, FilterType, UpdateType} from "./const";
+import Api from "./api.js";
 
-const EVENT_COUNT = 15;
+const AUTHORIZATION = `Basic HJhLJHljhGfUGFgydYFD`;
+const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 
-const points = new Array(EVENT_COUNT).fill().map(generateEvent);
+const api = new Api(END_POINT, AUTHORIZATION);
 
 const pointsModel = new PointsModel();
-pointsModel.setPoints(points);
-
 const filterModel = new FilterModel();
 
 const menuMainElement = document.querySelector(`.trip-main`);
@@ -24,9 +23,8 @@ const [tabsTitleElement, filtersTitleElement] = menuMainElement.querySelectorAll
 const siteMenuComponent = new SiteMenuView();
 
 render(menuMainElement, new InfoView(), InsertPosition.AFTERBEGIN);
-render(tabsTitleElement, siteMenuComponent, InsertPosition.AFTEREND);
 
-const tripPresenter = new TripPresenter(blockEventsElement, pointsModel, filterModel);
+const tripPresenter = new TripPresenter(blockEventsElement, pointsModel, filterModel, api);
 const filterPresenter = new FilterPresenter(filtersTitleElement, filterModel);
 
 let statisticsComponent = null;
@@ -53,10 +51,19 @@ const handleSiteMenuClick = (menuItem) => {
   siteMenuComponent.setActiveMenuItem(menuItem);
 };
 
-siteMenuComponent.setOnSiteMenuClick(handleSiteMenuClick);
-
 tripPresenter.init();
 filterPresenter.init();
+
+api.getPoints().then((points) => {
+  pointsModel.setPoints(UpdateType.INIT, points);
+  render(tabsTitleElement, siteMenuComponent, InsertPosition.AFTEREND);
+  siteMenuComponent.setOnSiteMenuClick(handleSiteMenuClick);
+})
+.catch(() => {
+  pointsModel.setPoints(UpdateType.INIT, []);
+  render(tabsTitleElement, siteMenuComponent, InsertPosition.AFTEREND);
+  siteMenuComponent.setOnSiteMenuClick(handleSiteMenuClick);
+});
 
 document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
   evt.preventDefault();

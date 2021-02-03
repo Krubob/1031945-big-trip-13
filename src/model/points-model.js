@@ -6,8 +6,10 @@ export default class PointsModel extends Observer {
     this._points = [];
   }
 
-  setPoints(points) {
+  setPoints(updateType, points) {
     this._points = points.slice();
+
+    this._notify(updateType);
   }
 
   getPoints() {
@@ -52,5 +54,47 @@ export default class PointsModel extends Observer {
     ];
 
     this._notify(updateType);
+  }
+
+  static adaptToClient(point) {
+    const adaptedPoint = Object.assign(
+        {},
+        point,
+        {
+          startTime: new Date(point.date_from),
+          endTime: new Date(point.date_to),
+          isFavorites: point.is_favorite,
+          cost: point.base_price,
+        }
+    );
+
+    // Ненужные ключи мы удаляем
+    delete adaptedPoint.date_from;
+    delete adaptedPoint.date_to;
+    delete adaptedPoint.is_favorite;
+    delete adaptedPoint.base_price;
+
+    return adaptedPoint;
+  }
+
+  static adaptToServer(point) {
+    const adaptedPoint = Object.assign(
+        {},
+        point,
+        {
+          'date_from': point.startTime.toISOString(),
+          'date_to': point.endTime.toISOString(),
+          'is_favorite': point.isFavorite,
+          'base_price': point.cost
+        }
+    );
+
+    // Ненужные ключи мы удаляем
+    delete adaptedPoint.startTime;
+    delete adaptedPoint.endTime;
+    delete adaptedPoint.isFavorite;
+    delete adaptedPoint.cost;
+
+    return adaptedPoint;
   }
 }

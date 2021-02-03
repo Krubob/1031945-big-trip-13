@@ -1,6 +1,7 @@
 import SortingView from "../view/sorting.js";
 import PointListView from "../view/point-list.js";
 import PointEmptyView from "../view/point-empty";
+import LoadingView from "../view/loading.js";
 import {InsertPosition, FilterType, SortType, UpdateType, UserAction} from "../const";
 import {render, remove, filter, sortTimeDown, sortPriceDown, sortDateDown} from "../utils.js";
 import PointPresenter from "./point-presenter";
@@ -8,17 +9,20 @@ import PointNewPresenter from "./point-new-presenter.js";
 import AbstractView from "../view/abstract.js";
 
 export default class TripPresenter extends AbstractView {
-  constructor(tripContainer, pointsModel, filterModel) {
+  constructor(tripContainer, pointsModel, filterModel, api) {
     super();
     this._tripContainer = tripContainer;
     this._pointsModel = pointsModel;
     this._filterModel = filterModel;
     this._pointPresenter = {};
     this._currentSortType = SortType.DEFAULT;
+    this._isLoading = true;
+    this._api = api;
 
     this._sortingComponent = null;
     this._pointListComponent = new PointListView();
     this._pointEmptyComponent = new PointEmptyView();
+    this._loadingComponent = new LoadingView();
 
     this._onViewAction = this._onViewAction.bind(this);
     this._onModelEvent = this._onModelEvent.bind(this);
@@ -80,13 +84,20 @@ export default class TripPresenter extends AbstractView {
   _onViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this._pointsModel.updatePoint(updateType, update);
+        this._api.updatePoint(update).then((response) => {
+          this._pointsModel.updatePoint(updateType, response);
+        });
         break;
       case UserAction.ADD_POINT:
         this._pointsModel.addPoint(updateType, update);
         break;
       case UserAction.DELETE_POINT:
         this._pointsModel.deletePoint(updateType, update);
+        break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        this._renderBoard();
         break;
     }
   }
@@ -138,6 +149,10 @@ export default class TripPresenter extends AbstractView {
     points.forEach((point) => this._renderPoint(point));
   }
 
+  _renderLoading() {
+    render(this._tripContainer, this._loadingComponent, InsertPosition.AFTERBEGIN);
+  }
+
   _renderPointsEmptyList() {
     render(this._tripContainer, this._pointEmptyComponent, InsertPosition.BEFOREEND);
   }
@@ -160,6 +175,7 @@ export default class TripPresenter extends AbstractView {
 
     remove(this._sortingComponent);
     remove(this._pointEmptyComponent);
+    remove(this._loadingComponent);
 
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
@@ -169,6 +185,11 @@ export default class TripPresenter extends AbstractView {
   _renderTrip() {
     const points = this._getPoints();
     const pointsCount = points.length;
+
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
 
     if (pointsCount === 0) {
       this._renderPointsEmptyList();
